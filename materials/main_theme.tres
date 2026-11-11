@@ -1,0 +1,25 @@
+[gd_resource type="Theme" format=3 uid="uid://bmmu75emuagmh"]
+
+[ext_resource type="FontFile" uid="uid://c4jt6s7o6mbqs" path="res://assets/fonts/RobotoMono-VariableFont_wght.ttf" id="1_cu0mx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g4v7s"]
+bg_color = Color(0.07284262, 0.072842635, 0.072842576, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 5.0
+expand_margin_top = 20.0
+expand_margin_right = 5.0
+expand_margin_bottom = 20.0
+
+[resource]
+default_font = ExtResource("1_cu0mx")
+default_font_size = 16
+HBoxContainer/constants/separation = 20
+HSlider/styles/slider = SubResource("StyleBoxFlat_g4v7s")
+MarginContainer/constants/margin_bottom = 30
+MarginContainer/constants/margin_left = 30
+MarginContainer/constants/margin_right = 30
+MarginContainer/constants/margin_top = 30
+VBoxContainer/constants/separation = 30

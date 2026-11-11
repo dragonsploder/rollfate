@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://caxrunfh72466"]
+
+[ext_resource type="Theme" uid="uid://bmmu75emuagmh" path="res://materials/main_theme.tres" id="1_ouf4f"]
+[ext_resource type="Script" uid="uid://darx2x7vjp68j" path="res://scripts/start_menu.gd" id="2_thu50"]
+
+[node name="Control" type="Control" unique_id=262659646]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_ouf4f")
+script = ExtResource("2_thu50")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=2093700461]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=2028023592]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer" unique_id=50159291]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="RichTextLabel" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=173002093]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 80
+text = "Untitled Game"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="Start" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=647237523]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Start Game"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=2084665762]
+layout_mode = 2
+alignment = 1
+
+[node name="Volume" type="RichTextLabel" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1345915392]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 48
+text = "Volume"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+
+[node name="VolumeSlider" type="HSlider" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=26098725]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+
+[node name="Exit" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1537881823]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Exit Game"
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="drag_ended" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VolumeSlider" to="." method="_on_volume_slider_drag_ended"]
+[connection signal="value_changed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VolumeSlider" to="." method="_on_volume_slider_value_changed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
