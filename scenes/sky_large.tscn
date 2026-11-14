@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://domu45u2qim14"]
+
+[ext_resource type="Script" uid="uid://fodvqjdu2uub" path="res://scenes/sky_rotate.gd" id="1_3l4gb"]
+[ext_resource type="Texture2D" uid="uid://nlxhijklcrd0" path="res://assets/textures/StarsLarge.png" id="2_0pwta"]
+
+[node name="Sky" type="Node2D" unique_id=483236780]
+script = ExtResource("1_3l4gb")
+rotate_rate = 0.3
+
+[node name="SkySprite2D" type="Sprite2D" parent="." unique_id=1822352994]
+texture = ExtResource("2_0pwta")

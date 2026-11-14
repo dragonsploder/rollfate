@@ -11,3 +11,5 @@ texture = ExtResource("2_ggt7d")
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=90606355]
 position = Vector2(225, 0)
+
+[node name="PonderRings" type="Node" parent="." unique_id=260711504]

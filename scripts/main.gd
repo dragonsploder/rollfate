@@ -3,10 +3,12 @@ extends Node
 @export var player : Node
 @export var camera : Camera2D
 @export var ui: Node
+@export var planet : Node
 
 var ponderings = 3.0
 var planet_scale = 1
 const PLAYER_SPEED = 10000
+var is_pondering : bool = false
 
 
 const WIZARD = preload("uid://dnab7mgo1j34n")
@@ -69,7 +71,7 @@ func _process(delta: float) -> void:
 			inc_ponderings(1.0)
 	
 	var rad_dist = PLAYER_SPEED / (2 * PI * get_planet_scale())
-	if Input.is_action_pressed("l"):
+	if Input.is_action_pressed("l") and planet.is_pondering:
 		player.walk(-delta * rad_dist)
 	elif Input.is_action_pressed("r"):
 		player.walk(delta * rad_dist)
