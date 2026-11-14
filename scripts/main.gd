@@ -4,7 +4,7 @@ extends Node
 @export var camera : Camera2D
 @export var ui: Node
 
-var ponderings = 300.0
+var ponderings = 3.0
 var planet_scale = 1
 const PLAYER_SPEED = 10000
 
