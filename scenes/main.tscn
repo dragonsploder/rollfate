@@ -2,12 +2,24 @@
 
 [ext_resource type="Script" uid="uid://d2y77r2mj2fk2" path="res://scripts/main.gd" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://bo1gnnd1wid0e" path="res://scenes/planet.tscn" id="2_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://83r71td7ahay" path="res://scenes/ui.tscn" id="2_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://ct34fno3eacat" path="res://scenes/player.tscn" id="3_sugp2"]
+[ext_resource type="PackedScene" uid="uid://dnr0qecugxb7a" path="res://scenes/monolith.tscn" id="4_jyhfs"]
 
-[node name="Node2D" type="Node2D" unique_id=637961090 node_paths=PackedStringArray("player", "camera")]
+[node name="Node2D" type="Control" unique_id=211856225 node_paths=PackedStringArray("player", "camera", "ui")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_o5qli")
 player = NodePath("Player")
 camera = NodePath("Camera2D")
+ui = NodePath("Ui")
+
+[node name="Ui" parent="." unique_id=874572070 instance=ExtResource("2_tbgi4")]
+layer = 100
 
 [node name="Planet" parent="." unique_id=1536973785 instance=ExtResource("2_0wfyh")]
 
@@ -16,3 +28,17 @@ ignore_rotation = false
 
 [node name="Player" parent="." unique_id=1912897716 instance=ExtResource("3_sugp2")]
 z_index = 50
+
+[node name="Monoliths" type="Node" parent="." unique_id=557270621]
+
+[node name="monolith1" parent="Monoliths" unique_id=1795794584 instance=ExtResource("4_jyhfs")]
+visible = false
+angle_loc = 1.8
+
+[node name="NoviceMages" type="Node" parent="." unique_id=1073203123]
+
+[node name="addponders" type="Timer" parent="." unique_id=1949610471]
+wait_time = 0.1
+autostart = true
+
+[connection signal="timeout" from="addponders" to="." method="_on_addponders_timeout"]

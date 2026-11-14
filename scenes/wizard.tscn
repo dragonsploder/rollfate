@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://dnab7mgo1j34n"]
+
+[ext_resource type="Texture2D" uid="uid://cerxjbijoggpr" path="res://assets/textures/Wiz2_idle_orange.png" id="1_3jsmo"]
+[ext_resource type="Script" uid="uid://crqikoostqbjc" path="res://scripts/wizard.gd" id="1_leome"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_leome"]
+atlas = ExtResource("1_3jsmo")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j4iv4"]
+atlas = ExtResource("1_3jsmo")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nmnu7"]
+atlas = ExtResource("1_3jsmo")
+region = Rect2(512, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ipgv"]
+atlas = ExtResource("1_3jsmo")
+region = Rect2(768, 0, 256, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dr7v0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_leome")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j4iv4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nmnu7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ipgv")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 9.0
+}]
+
+[node name="Node2D" type="Node2D" unique_id=487264671]
+script = ExtResource("1_leome")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=868935755]
+position = Vector2(0, -80)
+sprite_frames = SubResource("SpriteFrames_dr7v0")
+autoplay = "default"
+
+[node name="Timer" type="Timer" parent="." unique_id=573955575]
+wait_time = 0.3
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

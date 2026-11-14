@@ -39,6 +39,10 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dr7v0"]
+radius = 71.0
+height = 216.0
+
 [node name="Player" type="Node2D" unique_id=1912897716]
 script = ExtResource("1_g2els")
 
@@ -46,4 +50,12 @@ script = ExtResource("1_g2els")
 position = Vector2(0, -80)
 sprite_frames = SubResource("SpriteFrames_dr7v0")
 autoplay = "default"
-frame_progress = 0.6330286
+frame_progress = 0.72647595
+
+[node name="Area2D" type="Area2D" parent="AnimatedSprite2D" unique_id=1497463268]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/Area2D" unique_id=1711568883]
+shape = SubResource("CapsuleShape2D_dr7v0")
+
+[connection signal="area_entered" from="AnimatedSprite2D/Area2D" to="." method="_on_player_entered"]
+[connection signal="area_exited" from="AnimatedSprite2D/Area2D" to="." method="_on_player_exited"]
