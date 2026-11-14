@@ -4,11 +4,13 @@ extends Node
 @export var player : Node
 @export var camera : Camera2D
 @export var ui: Node
+@export var planet : Node
 
 var ponderings = 50.0
 var planet_scale = 1
 const PLAYER_SPEED = 10000
 const ROT_SPEED = 2
+var is_pondering : bool = false
 
 
 const WIZARD = preload("uid://dnab7mgo1j34n")

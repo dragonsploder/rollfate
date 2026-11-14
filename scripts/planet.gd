@@ -38,3 +38,11 @@ func _process(delta: float) -> void:
 	var true_scale = target_scale / x_len
 	
 	self.scale = Vector2(true_scale, true_scale)
+
+func begin_pondering():
+	pass		
+	
+
+
+func clear_pondering():
+	pass	

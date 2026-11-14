@@ -1,5 +1,0 @@
-[gd_scene format=3 uid="uid://djwf4ifuh6r4m"]
-
-[node name="Node2D" type="Node2D" unique_id=483236780]
-
-[node name="SkySprite2D" type="Sprite2D" parent="." unique_id=1822352994]
