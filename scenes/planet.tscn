@@ -39,12 +39,13 @@ animations = [{
 "name": &"default",
 "speed": 5.0
 }]
+[ext_resource type="Texture2D" uid="uid://38tnvofot3fn" path="res://assets/textures/Orb.svg" id="2_h8ms6"]
 
 [node name="Planet" type="Node2D" unique_id=1536973785]
 script = ExtResource("1_h8ms6")
 
 [node name="PlanetSprite" type="Sprite2D" parent="." unique_id=634747872]
-texture = ExtResource("2_ggt7d")
+texture = ExtResource("2_h8ms6")
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=90606355]
 position = Vector2(225, 0)
