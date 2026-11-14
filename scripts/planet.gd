@@ -12,6 +12,7 @@ var income_angle = 0
 var this_planet_scale = Vector2(1.0,1.0)
 
 const BOLT = preload("uid://c2me2k2weof5b")
+const ARCH_ORB = preload("uid://bnomjs570alyk")
 
 func set_start() -> void:
 	self.position =  Vector2.from_angle(income_angle) * main_manager.get_planet_scale() * 8
@@ -21,6 +22,7 @@ func _ready() -> void:
 	
 	if not is_player:
 		radius_mod += randf_range(-0.3, -0.1)
+		$PlanetSprite.texture = ARCH_ORB
 
 		
 	this_planet_scale = main_manager.get_planet_scale() * radius_mod
