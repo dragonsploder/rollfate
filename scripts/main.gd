@@ -1,16 +1,45 @@
 extends Node
 
+@export var planet : Node
 @export var player : Node
 @export var camera : Camera2D
 @export var ui: Node
 
-var ponderings = 3.0
+var ponderings = 50.0
 var planet_scale = 1
 const PLAYER_SPEED = 10000
+const ROT_SPEED = 2
 
 
 const WIZARD = preload("uid://dnab7mgo1j34n")
+const PLANET = preload("uid://bo1gnnd1wid0e")
 
+var income_angles = [0, PI/2, PI, -PI/2, -PI]
+
+
+var in_towerpit = false
+var entering_towerpit = false
+var block = false
+
+func get_planet_rot():
+	return planet.rotation
+
+func get_towerpit_zoom() -> Vector2:
+	var z = 1/get_planet_scale() * 100
+	return Vector2(z,z)
+
+func enter_towerpit():
+	hide_text_popup()
+	entering_towerpit = true
+	block = true
+	var tween : Tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
+	tween.tween_property(camera, "position", Vector2(0,0), 2.0)
+	tween.parallel().tween_property(camera, "rotation", 2*PI+ PI/2, 2.0)
+	tween.parallel().tween_property(camera, "zoom", get_towerpit_zoom(), 2.0)
+	await tween.finished
+	entering_towerpit = false
+	in_towerpit = true
+	block = false
 
 func get_active_cost(type: int) -> int:
 	match type:
@@ -32,7 +61,8 @@ func _ready() -> void:
 	planet_scale = get_planet_scale_raw()
 	
 func show_text_popup(text: String):
-	ui.show_text_popup(text)
+	if not in_towerpit and not entering_towerpit:
+		ui.show_text_popup(text)
 
 func hide_text_popup():
 	ui.hide_text_popup()
@@ -50,33 +80,55 @@ func _process(delta: float) -> void:
 	planet_scale = lerp(float(planet_scale), get_planet_scale_raw(), 0.99 * delta)
 	
 	# handel monoliths
-	for mono in $Monoliths.get_children():
+	for mono in $Planet/Monoliths.get_children():
 		if ponderings >= mono.min_ponderings:
 			mono.active = true
 			mono.show()
 			mono.position = Vector2.from_angle(mono.angle_loc) * planet_scale
 			mono.rotation = mono.angle_loc + PI / 2
-			if mono.has_overlapping_areas():
-				player._on_player_entered(mono)
+			for a in mono.get_overlapping_areas():
+				if "is_player_area" in a:
+					player._on_player_entered(mono)
+					break
 		else:
 			hide_mono_stuff(mono)
 
+	
+	# Update stuff
+	if block:
+		return 
+	if in_towerpit:
+		camera.zoom = get_towerpit_zoom()
+		if Input.is_action_just_pressed("b"):
+			block = true
+			var tween : Tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
+			tween.tween_property(camera, "position", player.position, 2.0)
+			tween.parallel().tween_property(camera, "rotation", player.rotation, 2.0)
+			tween.parallel().tween_property(camera, "zoom", Vector2(1.0,1.0), 2.0)
+			await tween.finished
+			in_towerpit = false
+			block = false
 		
-	if Input.is_action_just_pressed("a"):
-		if is_instance_valid(player.active_monolith):
-			player.active_monolith.attempt_active_monolith()
-		else:
-			inc_ponderings(1.0)
+		if Input.is_action_pressed("l"):
+			planet.rotation -= ROT_SPEED * delta
+		elif Input.is_action_pressed("r"):
+			planet.rotation += ROT_SPEED * delta
+		planet.rotation = fmod(planet.rotation, 2 *PI)
+	else:
+		if Input.is_action_just_pressed("a"):
+			if is_instance_valid(player.active_monolith):
+				player.active_monolith.attempt_active_monolith()
+			else:
+				inc_ponderings(1.0)
 	
-	var rad_dist = PLAYER_SPEED / (2 * PI * get_planet_scale())
-	if Input.is_action_pressed("l"):
-		player.walk(-delta * rad_dist)
-	elif Input.is_action_pressed("r"):
-		player.walk(delta * rad_dist)
-	
-	# Update Camera
-	camera.position = player.position
-	camera.rotation = player.rotation
+		var rad_dist = PLAYER_SPEED / (2 * PI * get_planet_scale())
+		if Input.is_action_pressed("l"):
+			player.walk(-delta * rad_dist)
+		elif Input.is_action_pressed("r"):
+			player.walk(delta * rad_dist)
+			
+		camera.position = player.position
+		camera.rotation = player.rotation
 
 func dec_ponderings(amt: float) -> bool:
 	if amt < ponderings:
@@ -87,9 +139,9 @@ func dec_ponderings(amt: float) -> bool:
 func spawn_mage(type):
 	var wiz = WIZARD.instantiate()
 	match type:
-		0: $NoviceMages.add_child(wiz)
-		1: $JournymanMages.add_child(wiz)
-		2: $ElderMages.add_child(wiz)
+		0: $Planet/NoviceMages.add_child(wiz)
+		1: $Planet/JournymanMages.add_child(wiz)
+		2: $Planet/ElderMages.add_child(wiz)
 	wiz.set_type(type)
 
 func inc_ponderings(amt: float):
@@ -103,9 +155,9 @@ func get_planet_scale() -> float:
 
 func get_num_wizards(type) -> int:
 	match type:
-		0: return len($NoviceMages.get_children())
-		1: return len($JournymanMages.get_children())
-		2: return len($ElderMages.get_children())
+		0: return len($Planet/NoviceMages.get_children())
+		1: return len($Planet/JournymanMages.get_children())
+		2: return len($Planet/ElderMages.get_children())
 		
 	return 0
 	
@@ -117,3 +169,14 @@ func get_total_pps() -> float:
 	
 func _on_addponders_timeout() -> void:
 	inc_ponderings(get_total_pps() * 0.1)
+
+func spawn_archplanet():
+	var ap = PLANET.instantiate()
+	$ArchPlanets.add_child(ap)
+	ap.income_angle = income_angles.pick_random()
+	income_angles.erase(ap.income_angle)
+	ap.set_start()
+
+func _on_spawnarch_timeout() -> void:
+	if len($ArchPlanets.get_children()) < 3:
+		spawn_archplanet()

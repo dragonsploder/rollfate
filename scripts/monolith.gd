@@ -17,8 +17,12 @@ var monolith_texts = [
 ]
 
 func get_monolith_text():
+	if type == 50:
+		return "Enter tower-pit"
 	return monolith_texts[type].replace("COST", str(main_manager.get_active_cost(type))).replace("PPS", str(main_manager.get_pps(type)))
 
 func attempt_active_monolith():
+	if type == 50:
+		main_manager.enter_towerpit()
 	if main_manager.dec_ponderings(main_manager.get_active_cost(type)):
 		main_manager.spawn_mage(type)

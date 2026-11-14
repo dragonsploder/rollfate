@@ -2,6 +2,8 @@ extends Node2D
 
 @onready var main_manager = get_tree().current_scene
 
+var is_player = true
+
 var angle = 0
 
 var active_monolith = null
@@ -17,8 +19,10 @@ func place_player():
 	# Place player in correct spot
 	var planet_scale = main_manager.get_planet_scale()
 	
-	self.position = Vector2.from_angle(angle) * planet_scale
-	self.rotation = angle + PI / 2
+	var angle_to_use = angle + main_manager.get_planet_rot()
+	
+	self.position = Vector2.from_angle(angle_to_use) * planet_scale
+	self.rotation = fmod(angle_to_use + PI / 2, 2*PI)
 	
 func walk(amt: float):
 	angle += amt 

@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://ct34fno3eacat" path="res://scenes/player.tscn" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://dnr0qecugxb7a" path="res://scenes/monolith.tscn" id="4_jyhfs"]
 
-[node name="Node2D" type="Control" unique_id=211856225 node_paths=PackedStringArray("player", "camera", "ui")]
+[node name="Node2D" type="Control" unique_id=211856225 node_paths=PackedStringArray("planet", "player", "camera", "ui")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,7 +14,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_o5qli")
-player = NodePath("Player")
+planet = NodePath("Planet")
+player = NodePath("Planet/Player")
 camera = NodePath("Camera2D")
 ui = NodePath("Ui")
 
@@ -22,39 +23,77 @@ ui = NodePath("Ui")
 layer = 100
 
 [node name="Planet" parent="." unique_id=1536973785 instance=ExtResource("2_0wfyh")]
+is_player = true
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=156155111]
-ignore_rotation = false
+[node name="Monoliths" type="Node2D" parent="Planet" unique_id=134121557]
+top_level = true
 
-[node name="Player" parent="." unique_id=1912897716 instance=ExtResource("3_sugp2")]
-z_index = 50
-
-[node name="Monoliths" type="Node" parent="." unique_id=557270621]
-
-[node name="monolith1" parent="Monoliths" unique_id=1795794584 instance=ExtResource("4_jyhfs")]
+[node name="monolith1" parent="Planet/Monoliths" unique_id=1795794584 instance=ExtResource("4_jyhfs")]
 visible = false
 angle_loc = 1.8
 
-[node name="monolith2" parent="Monoliths" unique_id=1871956154 instance=ExtResource("4_jyhfs")]
+[node name="monolith2" parent="Planet/Monoliths" unique_id=1871956154 instance=ExtResource("4_jyhfs")]
 visible = false
 type = 1
 angle_loc = 3.0
 min_ponderings = 333
 
-[node name="monolith3" parent="Monoliths" unique_id=1149355398 instance=ExtResource("4_jyhfs")]
+[node name="monolith3" parent="Planet/Monoliths" unique_id=1149355398 instance=ExtResource("4_jyhfs")]
 visible = false
 type = 2
 angle_loc = 5.0
 min_ponderings = 3333
 
-[node name="NoviceMages" type="Node" parent="." unique_id=1073203123]
+[node name="TowerPit" parent="Planet/Monoliths" unique_id=732266548 instance=ExtResource("4_jyhfs")]
+visible = false
+type = 50
+min_ponderings = 50
 
-[node name="JournymanMages" type="Node" parent="." unique_id=78821618]
+[node name="NoviceMages" type="Node2D" parent="Planet" unique_id=1406211565]
+top_level = true
 
-[node name="ElderMages" type="Node" parent="." unique_id=1931749370]
+[node name="JournymanMages" type="Node2D" parent="Planet" unique_id=826084743]
+top_level = true
+
+[node name="ElderMages" type="Node2D" parent="Planet" unique_id=136075817]
+top_level = true
+
+[node name="Player" parent="Planet" unique_id=1912897716 instance=ExtResource("3_sugp2")]
+top_level = true
+z_index = 50
+
+[node name="MonoRemote" type="RemoteTransform2D" parent="Planet" unique_id=1923186184]
+remote_path = NodePath("../Monoliths")
+update_position = false
+update_scale = false
+
+[node name="NoviceRemote" type="RemoteTransform2D" parent="Planet" unique_id=603896407]
+remote_path = NodePath("../NoviceMages")
+update_position = false
+update_scale = false
+
+[node name="JournymanRemote" type="RemoteTransform2D" parent="Planet" unique_id=139919017]
+remote_path = NodePath("../JournymanMages")
+update_position = false
+update_scale = false
+
+[node name="ElderRemote" type="RemoteTransform2D" parent="Planet" unique_id=1179135661]
+remote_path = NodePath("../ElderMages")
+update_position = false
+update_scale = false
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=156155111]
+ignore_rotation = false
 
 [node name="addponders" type="Timer" parent="." unique_id=1949610471]
 wait_time = 0.1
 autostart = true
 
+[node name="spawnarch" type="Timer" parent="." unique_id=1746324747]
+wait_time = 20.0
+autostart = true
+
+[node name="ArchPlanets" type="Node2D" parent="." unique_id=386266184]
+
 [connection signal="timeout" from="addponders" to="." method="_on_addponders_timeout"]
+[connection signal="timeout" from="spawnarch" to="." method="_on_spawnarch_timeout"]

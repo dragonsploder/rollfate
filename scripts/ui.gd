@@ -11,7 +11,8 @@ func _process(delta: float) -> void:
 
 func show_text_popup(text: String):
 	$TextPopup.show()
-	$TextPopup/VBoxContainer/Text.text = text
+	if text != "":
+		$TextPopup/VBoxContainer/Text.text = text
 	
 func hide_text_popup():
 	$TextPopup.hide()
