@@ -4,9 +4,8 @@ extends Node
 @export var player : Node
 @export var camera : Camera2D
 @export var ui: Node
-@export var planet : Node
 
-var ponderings = 50.0
+var ponderings = 5000.0
 var planet_scale = 1
 const PLAYER_SPEED = 10000
 const ROT_SPEED = 2
@@ -16,7 +15,7 @@ var is_pondering : bool = false
 const WIZARD = preload("uid://dnab7mgo1j34n")
 const PLANET = preload("uid://bo1gnnd1wid0e")
 
-var income_angles = [0, PI/2, PI, -PI/2, -PI]
+var income_angles = [0, PI/2, PI, -PI/2]
 
 
 var in_towerpit = false

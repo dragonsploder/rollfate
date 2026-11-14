@@ -21,7 +21,6 @@ planet = NodePath("Planet")
 player = NodePath("Planet/Player")
 camera = NodePath("Camera2D")
 ui = NodePath("Ui")
-planet = NodePath("Planet")
 
 [node name="Ui" parent="." unique_id=874572070 instance=ExtResource("2_tbgi4")]
 layer = 100
@@ -94,10 +93,11 @@ wait_time = 0.1
 autostart = true
 
 [node name="spawnarch" type="Timer" parent="." unique_id=1746324747]
-wait_time = 20.0
+wait_time = 2.0
 autostart = true
 
 [node name="ArchPlanets" type="Node2D" parent="." unique_id=386266184]
+
 [node name="Sky" type="Node2D" parent="." unique_id=122543296]
 position = Vector2(-1.9999999, 0)
 scale = Vector2(0.7, 0.7)

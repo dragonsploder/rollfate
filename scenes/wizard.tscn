@@ -107,16 +107,27 @@ animations = [{
 "speed": 9.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_dr7v0"]
+radius = 51.00913
+
 [node name="Node2D" type="Node2D" unique_id=487264671]
 script = ExtResource("1_leome")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=868935755]
 position = Vector2(0, -80)
 sprite_frames = SubResource("SpriteFrames_dr7v0")
-animation = &"elder_idle"
+animation = &"novice_idle"
 
 [node name="Timer" type="Timer" parent="." unique_id=573955575]
 wait_time = 0.3
 autostart = true
+
+[node name="Area2D" type="Area2D" parent="." unique_id=325834203]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1035414252]
+position = Vector2(0, -57.965)
+shape = SubResource("CircleShape2D_dr7v0")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

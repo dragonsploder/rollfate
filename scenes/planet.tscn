@@ -2,6 +2,43 @@
 
 [ext_resource type="Script" uid="uid://dtjkhfd34aps5" path="res://scripts/planet.gd" id="1_h8ms6"]
 [ext_resource type="Texture2D" uid="uid://cj71oicrt7146" path="res://assets/textures/Basic_Orb.png" id="2_ggt7d"]
+[ext_resource type="Texture2D" uid="uid://celoiselrb7s0" path="res://assets/textures/Wiz2_idle_red.png" id="3_ggt7d"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0k1rn"]
+atlas = ExtResource("3_ggt7d")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_48b8c"]
+atlas = ExtResource("3_ggt7d")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3s4jt"]
+atlas = ExtResource("3_ggt7d")
+region = Rect2(512, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1wmcx"]
+atlas = ExtResource("3_ggt7d")
+region = Rect2(768, 0, 256, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dr7v0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0k1rn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_48b8c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3s4jt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1wmcx")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Planet" type="Node2D" unique_id=1536973785]
 script = ExtResource("1_h8ms6")
@@ -13,3 +50,16 @@ texture = ExtResource("2_ggt7d")
 position = Vector2(225, 0)
 
 [node name="PonderRings" type="Node" parent="." unique_id=260711504]
+
+[node name="Wiz" type="AnimatedSprite2D" parent="." unique_id=91802130]
+visible = false
+top_level = true
+sprite_frames = SubResource("SpriteFrames_dr7v0")
+autoplay = "default"
+frame_progress = 0.8146115
+
+[node name="Zap" type="Timer" parent="." unique_id=830558527]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="Zap" to="." method="_on_zap_timeout"]
