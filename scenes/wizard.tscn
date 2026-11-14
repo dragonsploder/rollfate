@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://crqikoostqbjc" path="res://scripts/wizard.gd" id="1_leome"]
 [ext_resource type="Texture2D" uid="uid://d1tqdpxkqj5g5" path="res://assets/textures/Wiz2_idle_purple.png" id="2_nmnu7"]
 [ext_resource type="Texture2D" uid="uid://cf4tf1s62kqfs" path="res://assets/textures/Wiz2_idle_green.png" id="3_5ipgv"]
+[ext_resource type="Texture2D" uid="uid://bqqluwg333c0o" path="res://assets/textures/Wiz2_idle_yellow.png" id="5_5ipgv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8qlyk"]
 atlas = ExtResource("2_nmnu7")
@@ -51,6 +52,22 @@ region = Rect2(512, 0, 256, 256)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5ipgv"]
 atlas = ExtResource("1_3jsmo")
+region = Rect2(768, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sbuw5"]
+atlas = ExtResource("5_5ipgv")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t1csj"]
+atlas = ExtResource("5_5ipgv")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nnu41"]
+atlas = ExtResource("5_5ipgv")
+region = Rect2(512, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nlaja"]
+atlas = ExtResource("5_5ipgv")
 region = Rect2(768, 0, 256, 256)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_dr7v0"]
@@ -105,6 +122,23 @@ animations = [{
 "loop": 1,
 "name": &"novice_idle",
 "speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sbuw5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t1csj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nnu41")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nlaja")
+}],
+"loop": 1,
+"name": &"wizzer_idle",
+"speed": 5.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dr7v0"]
@@ -116,7 +150,7 @@ script = ExtResource("1_leome")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=868935755]
 position = Vector2(0, -80)
 sprite_frames = SubResource("SpriteFrames_dr7v0")
-animation = &"novice_idle"
+animation = &"wizzer_idle"
 
 [node name="Timer" type="Timer" parent="." unique_id=573955575]
 wait_time = 0.3

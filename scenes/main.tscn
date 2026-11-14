@@ -64,6 +64,12 @@ type = 2
 angle_loc = 5.0
 min_ponderings = 3333
 
+[node name="NavyWizzers" parent="Planet/Monoliths" unique_id=1124973633 instance=ExtResource("4_jyhfs")]
+visible = false
+type = 3
+angle_loc = 5.5
+min_ponderings = 100
+
 [node name="TowerPit" parent="Planet/Monoliths" unique_id=732266548 instance=ExtResource("4_jyhfs")]
 visible = false
 type = 50
@@ -82,6 +88,9 @@ top_level = true
 top_level = true
 z_index = 50
 
+[node name="NavyWizzers" type="Node2D" parent="Planet" unique_id=1751384970]
+top_level = true
+
 [node name="MonoRemote" type="RemoteTransform2D" parent="Planet" unique_id=1923186184]
 remote_path = NodePath("../Monoliths")
 update_position = false
@@ -99,6 +108,11 @@ update_scale = false
 
 [node name="ElderRemote" type="RemoteTransform2D" parent="Planet" unique_id=1179135661]
 remote_path = NodePath("../ElderMages")
+update_position = false
+update_scale = false
+
+[node name="NavyWizzerRemote" type="RemoteTransform2D" parent="Planet" unique_id=862899401]
+remote_path = NodePath("../NavyWizzers")
 update_position = false
 update_scale = false
 

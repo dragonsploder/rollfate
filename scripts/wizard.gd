@@ -12,7 +12,8 @@ var walking = 0.0
 const spawn_locs = [
 	1.8,
 	3,
-	5
+	5,
+	5.5
 ]
 
 func _ready() -> void:
@@ -33,6 +34,9 @@ func set_type(t: int):
 		2:
 			speed = 800
 			$AnimatedSprite2D.play("elder_idle")
+		3:
+			speed = 500
+			$AnimatedSprite2D.play("wizzer_idle")
 	
 	angle = spawn_locs[type] + randf_range(-rad_dist, rad_dist)
 	

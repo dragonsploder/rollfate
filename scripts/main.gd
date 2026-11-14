@@ -14,6 +14,7 @@ var is_pondering : bool = false
 
 const WIZARD = preload("uid://dnab7mgo1j34n")
 const PLANET = preload("uid://bo1gnnd1wid0e")
+const BOLT = preload("uid://c2me2k2weof5b")
 
 var income_angles = [0, PI/2, PI, -PI/2]
 
@@ -47,6 +48,7 @@ func get_active_cost(type: int) -> int:
 		0: return 10 + 5 * get_num_wizards(0)
 		1: return 100 + 50 * get_num_wizards(1)
 		2: return 1000 + 500 * get_num_wizards(2)
+		3: return 1000 + 500 * get_num_wizards(3)
 		
 	return 100000000
 	
@@ -55,6 +57,7 @@ func get_pps(type: int) -> int:
 		0: return 1
 		1: return 10
 		2: return 100
+		3: return 0
 		
 	return 1
 
@@ -109,7 +112,16 @@ func _process(delta: float) -> void:
 			await tween.finished
 			in_towerpit = false
 			block = false
-		
+		if Input.is_action_just_pressed("a"):
+			for w in $Planet/NavyWizzers.get_children():
+				if dec_ponderings(0.01 * ponderings):
+					var b = BOLT.instantiate()
+					self.add_child(b)
+					b.set_yellow()
+					b.position = w.global_position
+					b.rotation = w.global_rotation
+			
+			
 		if Input.is_action_pressed("l"):
 			planet.rotation -= ROT_SPEED * delta
 		elif Input.is_action_pressed("r"):
@@ -143,6 +155,7 @@ func spawn_mage(type):
 		0: $Planet/NoviceMages.add_child(wiz)
 		1: $Planet/JournymanMages.add_child(wiz)
 		2: $Planet/ElderMages.add_child(wiz)
+		3: $Planet/NavyWizzers.add_child(wiz)
 	wiz.set_type(type)
 
 func inc_ponderings(amt: float):
@@ -159,6 +172,7 @@ func get_num_wizards(type) -> int:
 		0: return len($Planet/NoviceMages.get_children())
 		1: return len($Planet/JournymanMages.get_children())
 		2: return len($Planet/ElderMages.get_children())
+		3: return len($Planet/NavyWizzers.get_children())
 		
 	return 0
 	
@@ -170,6 +184,9 @@ func get_total_pps() -> float:
 	
 func _on_addponders_timeout() -> void:
 	inc_ponderings(get_total_pps() * 0.1)
+
+func give_back_angle(a: float):
+	income_angles.append(a)
 
 func spawn_archplanet():
 	var ap = PLANET.instantiate()

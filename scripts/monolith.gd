@@ -11,9 +11,10 @@ extends Node2D
 var active = false
 
 var monolith_texts = [
-	"Hire Novice Mage\n COST ponderings\n(Thinks PPS pondering per second)",
-	"Hire Journyman Mage\n COST ponderings\n(Thinks PPS pondering per second)",
-	"Hire Elder Mage\n COST ponderings\n(Thinks PPS pondering per second)"
+	"Hire Novice Wizard\n COST ponderings\n(Thinks PPS pondering per second)",
+	"Hire Journyman Wizard\n COST ponderings\n(Thinks PPS pondering per second)",
+	"Hire Elder Wizard\n COST ponderings\n(Thinks PPS pondering per second)",
+	"Hire Abjuration Wizard\n COST ponderings\n (Shoots a bolt of lighting for 1% of your ponderings)"
 ]
 
 func get_monolith_text():
