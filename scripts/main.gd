@@ -4,9 +4,8 @@ extends Node
 @export var player : Node
 @export var camera : Camera2D
 @export var ui: Node
-@export var planet : Node
 
-var ponderings = 50.0
+var ponderings = 1.0
 var planet_scale = 1
 const PLAYER_SPEED = 10000
 const ROT_SPEED = 2

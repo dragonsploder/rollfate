@@ -9,6 +9,23 @@
 [ext_resource type="PackedScene" uid="uid://d2ww3ggvauiy8" path="res://scenes/sky_medium.tscn" id="5_tipki"]
 [ext_resource type="PackedScene" uid="uid://domu45u2qim14" path="res://scenes/sky_large.tscn" id="6_85g3d"]
 
+[sub_resource type="GDScript" id="GDScript_tipki"]
+script/source = "extends ColorRect
+
+@onready var main_manager = get_tree().current_scene
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	var s = main_manager.get_planet_scale()
+	self.scale = Vector2(s, s)
+	
+"
+
 [node name="Node2D" type="Control" unique_id=211856225 node_paths=PackedStringArray("planet", "player", "camera", "ui")]
 layout_mode = 3
 anchors_preset = 15
@@ -21,7 +38,6 @@ planet = NodePath("Planet")
 player = NodePath("Planet/Player")
 camera = NodePath("Camera2D")
 ui = NodePath("Ui")
-planet = NodePath("Planet")
 
 [node name="Ui" parent="." unique_id=874572070 instance=ExtResource("2_tbgi4")]
 layer = 100
@@ -98,26 +114,29 @@ wait_time = 20.0
 autostart = true
 
 [node name="ArchPlanets" type="Node2D" parent="." unique_id=386266184]
+
 [node name="Sky" type="Node2D" parent="." unique_id=122543296]
 position = Vector2(-1.9999999, 0)
 scale = Vector2(0.7, 0.7)
 
 [node name="SkySmall" parent="Sky" unique_id=483236780 instance=ExtResource("4_tefeu")]
-rotate_rate = 0.001
+rotate_rate = 0.003
 
 [node name="SkyMedium" parent="Sky" unique_id=166320145 instance=ExtResource("5_tipki")]
-rotate_rate = 0.001
+rotate_rate = 0.005
 
 [node name="SkyLarge" parent="Sky" unique_id=1186075954 instance=ExtResource("6_85g3d")]
-rotate_rate = 0.003
+rotate_rate = 0.01
 
 [node name="ColorRect" type="ColorRect" parent="Sky" unique_id=888908832]
 z_index = -1
 offset_left = -1500.0
-offset_top = -1500.0
+offset_top = -1502.8572
 offset_right = 1500.0
-offset_bottom = 1500.0
+offset_bottom = 1497.1428
+pivot_offset_ratio = Vector2(0.5, 0.5)
 color = Color(0, 0, 0, 1)
+script = SubResource("GDScript_tipki")
 
 [connection signal="timeout" from="addponders" to="." method="_on_addponders_timeout"]
 [connection signal="timeout" from="spawnarch" to="." method="_on_spawnarch_timeout"]
