@@ -13,7 +13,8 @@ const spawn_locs = [
 	1.8,
 	3,
 	5,
-	5.5
+	5.5,
+	2.5
 ]
 
 func _ready() -> void:
@@ -35,6 +36,9 @@ func set_type(t: int):
 			speed = 800
 			$AnimatedSprite2D.play("elder_idle")
 		3:
+			speed = 500
+			$AnimatedSprite2D.play("wizzer_idle")
+		4:
 			speed = 500
 			$AnimatedSprite2D.play("wizzer_idle")
 	

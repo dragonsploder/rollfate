@@ -70,9 +70,15 @@ type = 3
 angle_loc = 5.5
 min_ponderings = 100
 
+[node name="NavyWizzers2" parent="Planet/Monoliths" unique_id=392674756 instance=ExtResource("4_jyhfs")]
+visible = false
+type = 4
+angle_loc = 2.5
+min_ponderings = 200
+
 [node name="TowerPit" parent="Planet/Monoliths" unique_id=732266548 instance=ExtResource("4_jyhfs")]
 visible = false
-type = 50
+type = 5
 min_ponderings = 50
 
 [node name="NoviceMages" type="Node2D" parent="Planet" unique_id=1406211565]
@@ -124,7 +130,7 @@ wait_time = 0.1
 autostart = true
 
 [node name="spawnarch" type="Timer" parent="." unique_id=1746324747]
-wait_time = 2.0
+wait_time = 5.0
 autostart = true
 
 [node name="ArchPlanets" type="Node2D" parent="." unique_id=386266184]

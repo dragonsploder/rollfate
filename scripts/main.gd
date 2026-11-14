@@ -5,12 +5,13 @@ extends Node
 @export var camera : Camera2D
 @export var ui: Node
 
-var ponderings = 5000.0
+var ponderings = 1.0
 var planet_scale = 1
 const PLAYER_SPEED = 10000
 const ROT_SPEED = 2
 var is_pondering : bool = false
 
+var do_spawning = false
 
 const WIZARD = preload("uid://dnab7mgo1j34n")
 const PLANET = preload("uid://bo1gnnd1wid0e")
@@ -49,6 +50,7 @@ func get_active_cost(type: int) -> int:
 		1: return 100 + 50 * get_num_wizards(1)
 		2: return 1000 + 500 * get_num_wizards(2)
 		3: return 1000 + 500 * get_num_wizards(3)
+		4: return 1000 + 500 * get_num_wizards(3)
 		
 	return 100000000
 	
@@ -58,6 +60,7 @@ func get_pps(type: int) -> int:
 		1: return 10
 		2: return 100
 		3: return 0
+		4: return 0
 		
 	return 1
 
@@ -82,6 +85,9 @@ func hide_mono_stuff(mono: Node):
 
 func _process(delta: float) -> void:
 	planet_scale = lerp(float(planet_scale), get_planet_scale_raw(), 0.99 * delta)
+	
+	if ponderings > 1200:
+		do_spawning = true
 	
 	# handel monoliths
 	for mono in $Planet/Monoliths.get_children():
@@ -156,6 +162,7 @@ func spawn_mage(type):
 		1: $Planet/JournymanMages.add_child(wiz)
 		2: $Planet/ElderMages.add_child(wiz)
 		3: $Planet/NavyWizzers.add_child(wiz)
+		4: $Planet/NavyWizzers.add_child(wiz)
 	wiz.set_type(type)
 
 func inc_ponderings(amt: float):
@@ -173,6 +180,7 @@ func get_num_wizards(type) -> int:
 		1: return len($Planet/JournymanMages.get_children())
 		2: return len($Planet/ElderMages.get_children())
 		3: return len($Planet/NavyWizzers.get_children())
+		4: return len($Planet/NavyWizzers.get_children())
 		
 	return 0
 	
@@ -196,5 +204,5 @@ func spawn_archplanet():
 	ap.set_start()
 
 func _on_spawnarch_timeout() -> void:
-	if len($ArchPlanets.get_children()) < 3:
+	if do_spawning and len($ArchPlanets.get_children()) < 3 and randi_range(0,8) == 0:
 		spawn_archplanet()
