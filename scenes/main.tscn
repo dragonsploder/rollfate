@@ -35,7 +35,23 @@ z_index = 50
 visible = false
 angle_loc = 1.8
 
+[node name="monolith2" parent="Monoliths" unique_id=1871956154 instance=ExtResource("4_jyhfs")]
+visible = false
+type = 1
+angle_loc = 3.0
+min_ponderings = 333
+
+[node name="monolith3" parent="Monoliths" unique_id=1149355398 instance=ExtResource("4_jyhfs")]
+visible = false
+type = 2
+angle_loc = 5.0
+min_ponderings = 3333
+
 [node name="NoviceMages" type="Node" parent="." unique_id=1073203123]
+
+[node name="JournymanMages" type="Node" parent="." unique_id=78821618]
+
+[node name="ElderMages" type="Node" parent="." unique_id=1931749370]
 
 [node name="addponders" type="Timer" parent="." unique_id=1949610471]
 wait_time = 0.1

@@ -11,15 +11,14 @@ extends Node2D
 var active = false
 
 var monolith_texts = [
-	"Hire Novice Mage\n COST ponderings\n(Thinks PPS pondering per second)"
+	"Hire Novice Mage\n COST ponderings\n(Thinks PPS pondering per second)",
+	"Hire Journyman Mage\n COST ponderings\n(Thinks PPS pondering per second)",
+	"Hire Elder Mage\n COST ponderings\n(Thinks PPS pondering per second)"
 ]
-
-func get_active_cost():
-	return 10
 
 func get_monolith_text():
 	return monolith_texts[type].replace("COST", str(main_manager.get_active_cost(type))).replace("PPS", str(main_manager.get_pps(type)))
 
 func attempt_active_monolith():
 	if main_manager.dec_ponderings(main_manager.get_active_cost(type)):
-		main_manager.spawn_novice_mage()
+		main_manager.spawn_mage(type)

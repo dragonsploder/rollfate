@@ -11,6 +11,8 @@ var walking = 0.0
 
 const spawn_locs = [
 	1.8,
+	3,
+	5
 ]
 
 func _ready() -> void:
@@ -20,12 +22,20 @@ func _ready() -> void:
 func set_type(t: int):
 	var planet_scale = main_manager.get_planet_scale()
 	var rad_dist = 1000 / (2 * PI * main_manager.get_planet_scale())
-	type = 0
+	type = t
 	match type:
 		0: 
 			speed = 1200
-			print(rad_dist)
-			angle = spawn_locs[0] + randf_range(-rad_dist, rad_dist)
+			$AnimatedSprite2D.play("novice_idle")
+		1:
+			speed = 1000
+			$AnimatedSprite2D.play("journyman_idle")
+		2:
+			speed = 800
+			$AnimatedSprite2D.play("elder_idle")
+	
+	angle = spawn_locs[type] + randf_range(-rad_dist, rad_dist)
+	
 
 func _process(delta: float) -> void:
 	var planet_scale = main_manager.get_planet_scale()
