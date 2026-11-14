@@ -5,12 +5,15 @@ extends Node
 @export var camera : Camera2D
 @export var ui: Node
 
-var ponderings = 5000.0
+var ponderings = 1.0
 var planet_scale = 1
 const PLAYER_SPEED = 10000
 const ROT_SPEED = 2
 var is_pondering : bool = false
 
+var ponder_speed_rhythm = 1
+var player_pondering_scale = 1
+var pondering_bonus = 100
 
 const WIZARD = preload("uid://dnab7mgo1j34n")
 const PLANET = preload("uid://bo1gnnd1wid0e")
@@ -98,6 +101,8 @@ func _process(delta: float) -> void:
 	# Update stuff
 	if block:
 		return 
+	if is_pondering:
+		planet.continue_ponder(ponder_speed_rhythm * delta, player_pondering_scale * delta)
 	if in_towerpit:
 		camera.zoom = get_towerpit_zoom()
 		if Input.is_action_just_pressed("b"):
@@ -119,14 +124,21 @@ func _process(delta: float) -> void:
 		if Input.is_action_just_pressed("a"):
 			if is_instance_valid(player.active_monolith):
 				player.active_monolith.attempt_active_monolith()
+			elif (is_pondering):
+				if (not planet.ponder(100)):
+					is_pondering = false
 			else:
-				inc_ponderings(1.0)
+				planet.start_pondering()
+				is_pondering = true
 	
 		var rad_dist = PLAYER_SPEED / (2 * PI * get_planet_scale())
-		if Input.is_action_pressed("l"):
+		if Input.is_action_pressed("l") and not is_pondering:
 			player.walk(-delta * rad_dist)
-		elif Input.is_action_pressed("r"):
+		elif Input.is_action_pressed("r") and not is_pondering:
 			player.walk(delta * rad_dist)
+		elif Input.is_action_pressed("b") and is_pondering:
+			is_pondering = false
+			planet.stop_pondering()
 			
 		camera.position = player.position
 		camera.rotation = player.rotation

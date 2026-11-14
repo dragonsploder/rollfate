@@ -116,6 +116,7 @@ autostart = true
 [node name="ArchPlanets" type="Node2D" parent="." unique_id=386266184]
 
 [node name="Sky" type="Node2D" parent="." unique_id=122543296]
+z_index = -1
 position = Vector2(-1.9999999, 0)
 scale = Vector2(0.7, 0.7)
 
@@ -129,7 +130,7 @@ rotate_rate = 0.005
 rotate_rate = 0.01
 
 [node name="ColorRect" type="ColorRect" parent="Sky" unique_id=888908832]
-z_index = -1
+z_index = -2
 offset_left = -1500.0
 offset_top = -1502.8572
 offset_right = 1500.0

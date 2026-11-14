@@ -9,6 +9,7 @@ rotate_rate = 0.3
 
 [node name="SkySprite2D" type="Sprite2D" parent="." unique_id=1822352994]
 texture_repeat = 2
+scale = Vector2(2, 2)
 texture = ExtResource("2_0pwta")
 region_enabled = true
 region_rect = Rect2(0, 0, 20000, 20000)
