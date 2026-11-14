@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dtjkhfd34aps5" path="res://scripts/planet.gd" id="1_h8ms6"]
 [ext_resource type="Texture2D" uid="uid://38tnvofot3fn" path="res://assets/textures/Orb.svg" id="2_ggt7d"]
+[ext_resource type="PackedScene" uid="uid://c3qkthp32s0hw" path="res://scenes/ponder_ring.tscn" id="3_0k1rn"]
 [ext_resource type="Texture2D" uid="uid://celoiselrb7s0" path="res://assets/textures/Wiz2_idle_red.png" id="3_ggt7d"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0k1rn"]
@@ -48,13 +49,17 @@ collision_layer = 8
 collision_mask = 0
 script = ExtResource("1_h8ms6")
 
+[node name="PonderRings" type="Node" parent="." unique_id=260711504]
+
+[node name="PonderRing" parent="PonderRings" unique_id=666884959 instance=ExtResource("3_0k1rn")]
+visible = false
+scale = Vector2(1e-05, 1e-05)
+
 [node name="PlanetSprite" type="Sprite2D" parent="." unique_id=634747872]
 texture = ExtResource("2_ggt7d")
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=90606355]
 position = Vector2(256, 0)
-
-[node name="PonderRings" type="Node" parent="." unique_id=260711504]
 
 [node name="Wiz" type="AnimatedSprite2D" parent="." unique_id=91802130]
 visible = false
