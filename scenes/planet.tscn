@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bo1gnnd1wid0e"]
+
+[ext_resource type="Script" uid="uid://dtjkhfd34aps5" path="res://scripts/planet.gd" id="1_h8ms6"]
+[ext_resource type="Texture2D" uid="uid://cj71oicrt7146" path="res://assets/textures/Basic_Orb.png" id="2_ggt7d"]
+
+[node name="Planet" type="Node2D" unique_id=1536973785]
+script = ExtResource("1_h8ms6")
+
+[node name="PlanetSprite" type="Sprite2D" parent="." unique_id=634747872]
+texture = ExtResource("2_ggt7d")
+
+[node name="Marker2D" type="Marker2D" parent="." unique_id=90606355]
+position = Vector2(225, 0)
