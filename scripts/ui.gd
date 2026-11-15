@@ -16,3 +16,10 @@ func show_text_popup(text: String):
 	
 func hide_text_popup():
 	$TextPopup.hide()
+
+func win():
+	$TextPopup.hide()
+	$Ponderings.hide()
+	$PPS.hide()
+	$AnimationPlayer.play("win")
+	

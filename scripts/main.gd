@@ -5,7 +5,7 @@ extends Node
 @export var camera : Camera2D
 @export var ui: Node
 
-var ponderings = 1.0
+var ponderings = 20000.0
 var planet_scale = 1
 const PLAYER_SPEED = 5000
 const ROT_SPEED = 0.75
@@ -17,7 +17,7 @@ var fire_cool_down_time = 0.5
 var do_spawning = false
 var ponder_speed_rhythm = 1
 var player_pondering_scale = 1
-var pondering_bonus = 100
+
 
 const WIZARD = preload("uid://dnab7mgo1j34n")
 const PLANET = preload("uid://bo1gnnd1wid0e")
@@ -64,7 +64,7 @@ const JOURNY_READ = preload("uid://dy7tuyd8dinee")
 const ELDER_READ = preload("uid://che1qfji7bvod")
 const ZAPER_READ = preload("uid://tyjcidk427qc")
 
-
+var winning = false
 var planet_difficulty = 1
 
 var seen_mono = []
@@ -99,19 +99,20 @@ func enter_towerpit():
 
 func get_active_cost(type: int) -> int:
 	match type:
-		0: return 10 + 5 * get_num_wizards(0)
-		1: return 100 + 50 * get_num_wizards(1)
-		2: return 1000 + 500 * get_num_wizards(2)
-		3: return 1000 + 500 * get_num_wizards(3)
-		4: return 1000 + 500 * get_num_wizards(3)
+		0: return 77 + 6 * pow(1.5 * get_num_wizards(0), 2)
+		1: return 3300 + 80 * pow(2 * get_num_wizards(1), 2)
+		2: return 120_000 + 50_000 * pow(3*get_num_wizards(2),2)
 		
-	return 100000000
+		3: return 10_000 + 500 * pow(get_num_wizards(3), 1.5)
+		4: return 10_000 + 500 * pow(get_num_wizards(3), 1.5)
+		
+	return 10000000000
 	
 func get_pps(type: int) -> int:
 	match type:
-		0: return 1 * novice_wizard_mult
-		1: return 10 * journyman_wizard_mult
-		2: return 100 * elder_wizard_mult
+		0: return 4 * novice_wizard_mult
+		1: return 60 * journyman_wizard_mult
+		2: return 2_000 * elder_wizard_mult
 		3: return 0
 		4: return 0
 		
@@ -137,36 +138,41 @@ func hide_mono_stuff(mono: Node):
 		
 
 func _process(delta: float) -> void:
+	if winning:
+		return
 	
 	fire_cool_down -= delta
 	planet_scale = lerp(float(planet_scale), get_planet_scale_raw(), 0.99 * delta)
 	
-	if ponderings > 1200:
+	if ponderings > 10_000 and not do_spawning:
 		do_spawning = true
+		_on_spawnarch_timeout()
 		
-	if ponderings > 20000 and planet_difficulty == 1:
-		planet_difficulty = 2
-	if ponderings > 100000 and planet_difficulty == 2:
+	if ponderings > 100_000 and planet_difficulty == 1:
 		planet_difficulty = 3
+	#if ponderings > 100000 and planet_difficulty == 2:
+	#	planet_difficulty = 3
 	
 	# handle monoliths
 	for mono in $Planet/Monoliths.get_children():
 		if ponderings >= mono.min_ponderings:
 			mono.active = true
 			mono.show()
-			mono.position = Vector2.from_angle(mono.angle_loc) * planet_scale
-			mono.rotation = mono.angle_loc + PI / 2
-			
 			if not mono.type in seen_mono:
 				seen_mono.append(mono.type)
 				$newmono.play()
+				
+		mono.position = Vector2.from_angle(mono.angle_loc) * planet_scale
+		mono.rotation = mono.angle_loc + PI / 2
 			
-			for a in mono.get_overlapping_areas():
-				if "is_player_area" in a:
-					player._on_player_entered(mono)
-					break
-		else:
-			hide_mono_stuff(mono)
+			
+		for a in mono.get_overlapping_areas():
+			if "is_player_area" in a:
+				player._on_player_entered(mono)
+				break
+		#else:
+			#hide_mono_stuff(mono)
+		#	pass
 
 	
 	# Update stuff
@@ -317,22 +323,39 @@ func spawn_archplanet():
 	ap.set_difficulty(planet_difficulty)
 
 func _on_spawnarch_timeout() -> void:
-	if do_spawning and len($ArchPlanets.get_children()) < 5 and randi_range(0,2 + int(len($ArchPlanets.get_children())/2)) == 0:
-		spawn_archplanet()
+	if do_spawning and not (ponderings < 10_000 and get_num_wizards(4) == 0):
+		var to_spawn = randi_range(1,3)
+		var t = min(to_spawn, 5 - len($ArchPlanets.get_children()))
+		for i in range(t):
+			print("spawn_planet")
+			spawn_archplanet()
+	#if do_spawning and len($ArchPlanets.get_children()) < 5 and randi_range(0,2 + int(len($ArchPlanets.get_children())/2)) == 0:
+	#	spawn_archplanet()
 
 func give_upgrade_1(idx):
 	match idx:
 		0: novice_wizard_mult *= 2.0
-		1: journyman_wizard_mult *= 2.0
-		2: novice_wizard_mult *= 10
+		1: novice_wizard_mult *= 2.0
+		2: journyman_wizard_mult *= 2.0
+		3: novice_wizard_mult *= 10
+		4: journyman_wizard_mult *= 5.0
 
 func on_planet_death():
 	$planetDeath.play()
 
 func give_upgrade_2(idx):
 	match idx:
-		0: fire_cool_down_time /= 2.0
-		1: pass #TODO 
+		0: planet.ponder_income *= 4
+		1: planet.ponder_income *= 6
+		2: planet.ponder_income *= 7
+		3: fire_cool_down_time /= 2.0
+		4: planet.ponder_income *= 20
 
 func play_wiz_death():
 	$death.play()
+
+func win():
+	AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), true)
+	ui.win()
+	winning = true
+	

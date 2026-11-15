@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://dgx0qyswusuuc"]
 
+[ext_resource type="PackedScene" uid="uid://cdxr6xt3qgajk" path="res://scenes/main.tscn" id="1_n87rw"]
+
 [sub_resource type="GDScript" id="GDScript_cu0mx"]
 script/source = "extends CanvasLayer
 
@@ -7,6 +9,7 @@ script/source = "extends CanvasLayer
 @onready var volume_slider: HSlider = $Control/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VolumeSlider
 @onready var volume_sfx_slider: HSlider = $Control/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VolumeSlider
 
+@export var main: PackedScene
 
 func _ready() -> void:
 	volume_slider.value = start_volume
@@ -18,8 +21,9 @@ func _on_volume_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_linear(AudioServer.get_bus_index(\"MUSIC\"), value)
 
 func _on_exit_pressed() -> void:
-	get_tree().quit()
-
+	get_tree().paused = false
+	get_tree().reload_current_scene()
+	
 func _on_return_pressed() -> void:
 	get_tree().paused = false
 	hide()
@@ -32,6 +36,7 @@ func _on_volume_sfx_slider_value_changed(value: float) -> void:
 [node name="PauseMenu" type="CanvasLayer" unique_id=1583470581]
 process_mode = 3
 script = SubResource("GDScript_cu0mx")
+main = ExtResource("1_n87rw")
 
 [node name="Control" type="Control" parent="." unique_id=2121397943]
 layout_mode = 3
@@ -119,7 +124,7 @@ step = 0.01
 [node name="Exit" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer" unique_id=1537881823]
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
-text = "Exit Game"
+text = "Restart Game"
 
 [connection signal="pressed" from="Control/PanelContainer/MarginContainer/VBoxContainer/Return" to="." method="_on_return_pressed"]
 [connection signal="drag_ended" from="Control/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VolumeSlider" to="." method="_on_volume_slider_drag_ended"]
