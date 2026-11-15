@@ -25,4 +25,6 @@ shape = SubResource("RectangleShape2D_dr7v0")
 wait_time = 15.0
 autostart = true
 
+[node name="title_holder" type="Node2D" parent="." unique_id=671517526]
+
 [connection signal="timeout" from="SkullTimer" to="." method="_on_skull_timer_timeout"]

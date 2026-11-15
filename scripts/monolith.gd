@@ -84,6 +84,48 @@ var monolith_texts = [
 	"Enter tower-pit",
 ]
 
+const TITLE = preload("uid://dkvahcolwkcjq")
+
+var name_stems = [
+	"Chudding",
+	"Chudders",
+	"Chuddington",
+	"Chudly",
+	"Chad",
+	"Chud"
+]
+
+var name_endings = [
+	" the Third",
+	" the Second",
+	" the Fourth",
+	" the Chudling",
+	" the Chudly",
+	" the Chud",
+]
+
+var name_prefixes = [
+	"Sir ",
+	"Mr. ",
+	"Arch ",
+	"High ",
+	"Old ",
+]
+
+func get_wiz_name(): 
+	var wiz_name = name_stems.pick_random()
+	
+	if randi_range(0,8) == 0:
+		wiz_name = name_prefixes.pick_random() + wiz_name
+		
+	if randi_range(0, 8) == 0:
+		wiz_name = wiz_name + name_endings.pick_random()
+	
+	var endings = [" has appeared...", " falls into existance...", " shows up...", " arrives..."]
+	
+	return wiz_name + endings.pick_random()
+	
+
 func _ready() -> void:
 	$Sprite2D.texture = monolith_sprites[type]
 	if type == 9:
@@ -117,6 +159,9 @@ func attempt_active_monolith():
 		main_manager.spawn_mage(9)
 	else:
 		if main_manager.dec_ponderings(main_manager.get_active_cost(type)):
+			var t = TITLE.instantiate()
+			$title_holder.add_child(t)
+			t.set_text(get_wiz_name())
 			main_manager.spawn_mage(type)
 
 

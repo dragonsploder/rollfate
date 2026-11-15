@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://dkvahcolwkcjq"]
+
+[sub_resource type="GDScript" id="GDScript_picja"]
+script/source = "extends Control
+
+
+func set_text(s):
+	$title.text = s
+	$AnimationPlayer.play(\"rise\")
+	
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	queue_free()
+"
+
+[sub_resource type="Animation" id="Animation_pvspv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("title:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-130, -260)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("title:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_4ignj"]
+resource_name = "rise"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("title:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1.6245047, 1),
+"update": 0,
+"values": [Vector2(-130, -260), Vector2(-130, -360)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("title:modulate")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1.866067, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wosw1"]
+_data = {
+&"RESET": SubResource("Animation_pvspv"),
+&"rise": SubResource("Animation_4ignj")
+}
+
+[node name="titleThing" type="Control" unique_id=490579929]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 293.0
+offset_bottom = 168.0
+script = SubResource("GDScript_picja")
+
+[node name="title" type="RichTextLabel" parent="." unique_id=479610747]
+layout_mode = 0
+offset_left = -130.0
+offset_top = -260.0
+offset_right = 140.0
+offset_bottom = -194.0
+theme_override_constants/outline_size = 6
+text = "Chuding has appeared..."
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1545623572]
+libraries/ = SubResource("AnimationLibrary_wosw1")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
