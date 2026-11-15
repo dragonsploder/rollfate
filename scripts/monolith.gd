@@ -148,9 +148,9 @@ func _ready() -> void:
 
 func get_monolith_text():
 	if type == 6:
-		return upgrades1[current_upgrade].replace("COST", str(upgrades1_costs[current_upgrade]))
+		return upgrades1[current_upgrade].replace("COST", str( main_manager.add_commas(upgrades1_costs[current_upgrade])))
 	elif type == 7:
-		return upgrades2[current_upgrade].replace("COST", str(upgrades2_costs[current_upgrade]))
+		return upgrades2[current_upgrade].replace("COST", str( main_manager.add_commas(upgrades2_costs[current_upgrade])))
 	elif type == 8:
 		return current_skull_text
 	elif type == 9:
