@@ -108,7 +108,7 @@ next_ring_step = 1.1
 [node name="PonderRing4" parent="PonderRings" unique_id=509765585 instance=ExtResource("3_0k1rn")]
 visible = false
 scale = Vector2(1e-05, 1e-05)
-next_ring_step = 1.5
+next_ring_step = 1.3
 
 [node name="PlanetSprite" type="Sprite2D" parent="." unique_id=634747872]
 texture = ExtResource("2_ggt7d")
