@@ -16,6 +16,7 @@ const MONOLITH_3 = preload("uid://cxj7nkd7t6qf1")
 const MONOLITH_4 = preload("uid://cboywsbdamwyt")
 const MONOLITH_5 = preload("uid://1fe5bk2y20rg")
 const MONOLITH_6 = preload("uid://dnx71sf010e81")
+const SKULL = preload("uid://bi8xyb4f30t6s")
 
 
 var monolith_sprites = [
@@ -26,7 +27,8 @@ var monolith_sprites = [
 	MONOLITH_4,
 	MONOLITH_6,
 	MONOLITH_5,
-	MONOLITH_5
+	MONOLITH_5,
+	SKULL
 ]
 var current_upgrade = 0
 
@@ -56,6 +58,15 @@ var upgrades2_costs = [
 	0
 ]
 
+var current_skull_text = "Got here fast huh."
+var skull_texts = [
+	"You suck.",
+	"So much pondering, so little thinking.",
+	"I once had a body you know.",
+	"Tis but a flesh wound.",
+	"I thought I would ponder forever, now I’m naught but a skull - it will happen to you too..!",
+]
+
 var monolith_texts = [
 	"Hire Novice Wizard\n COST ponderings\n(Thinks PPS pondering per second)",
 	"Hire Journyman Wizard\n COST ponderings\n(Thinks PPS pondering per second)",
@@ -73,6 +84,9 @@ func get_monolith_text():
 		return upgrades1[current_upgrade].replace("COST", str(upgrades1_costs[current_upgrade]))
 	elif type == 7:
 		return upgrades2[current_upgrade].replace("COST", str(upgrades2_costs[current_upgrade]))
+	elif type == 8:
+		return current_skull_text
+		
 	return monolith_texts[type].replace("COST", str(main_manager.get_active_cost(type))).replace("PPS", str(main_manager.get_pps(type)))
 
 func attempt_active_monolith():
@@ -87,3 +101,12 @@ func attempt_active_monolith():
 		
 	if main_manager.dec_ponderings(main_manager.get_active_cost(type)):
 		main_manager.spawn_mage(type)
+
+
+func _on_skull_timer_timeout() -> void:
+	if main_manager.ponderings < 1000:
+		current_skull_text = "You arn't much good at this pondering stuff."
+	elif main_manager.get_num_wizards(0) > 200 and randi_range(0,5) == 0:
+		current_skull_text = ["It's like a zoo here!", "Getting a bit crowded on this orb…"].pick_random()
+	
+	current_skull_text = skull_texts.pick_random()

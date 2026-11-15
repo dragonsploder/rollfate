@@ -19,3 +19,9 @@ texture = SubResource("CompressedTexture2D_uudca")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2145159211]
 position = Vector2(0.5, -75)
 shape = SubResource("RectangleShape2D_dr7v0")
+
+[node name="SkullTimer" type="Timer" parent="." unique_id=1636664543]
+wait_time = 15.0
+autostart = true
+
+[connection signal="timeout" from="SkullTimer" to="." method="_on_skull_timer_timeout"]

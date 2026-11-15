@@ -93,6 +93,12 @@ type = 7
 angle_loc = 0.7
 min_ponderings = 2000
 
+[node name="Skull" parent="Planet/Monoliths" unique_id=418586885 instance=ExtResource("4_jyhfs")]
+visible = false
+type = 8
+angle_loc = 4.8
+min_ponderings = 1000
+
 [node name="NoviceMages" type="Node2D" parent="Planet" unique_id=1406211565]
 top_level = true
 
