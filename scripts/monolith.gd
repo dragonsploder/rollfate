@@ -156,7 +156,7 @@ func get_monolith_text():
 	elif type == 9:
 		return "Plant Tree\n5,000 pondering\nOffers vibes and some protection"
 	elif type == 10:
-		return "Ascend\n100,000,000 ponderings"
+		return "Ascend\n1,000,000 ponderings"
 		
 	return monolith_texts[type].replace("COST", main_manager.add_commas(str(main_manager.get_active_cost(type)))).replace("PPS", str(main_manager.add_commas(main_manager.get_pps(type))))
 
@@ -173,7 +173,7 @@ func attempt_active_monolith():
 		return
 	elif type == 9 and main_manager.dec_ponderings(5000):
 		main_manager.spawn_mage(9)
-	elif type == 10 and main_manager.dec_ponderings(100000000):
+	elif type == 10 and main_manager.dec_ponderings(1000000):
 		main_manager.win()
 	else:
 		if main_manager.dec_ponderings(main_manager.get_active_cost(type)):

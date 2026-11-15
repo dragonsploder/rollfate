@@ -62,7 +62,7 @@ func hide_text_popup():
 
 func win():
 	$TextPopup.hide()
-	$Ponderings.hide()
-	$PPS.hide()
+	$VBoxContainer/Ponderings.hide()
+	$VBoxContainer/PPS.hide()
 	$AnimationPlayer.play("win")
 	
