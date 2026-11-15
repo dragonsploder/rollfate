@@ -6,7 +6,7 @@
 script/source = "extends Node2D
 
 # The total amount of time it takes for the rhythm to loop
-const RHYTHM_TIME = 3
+const RHYTHM_TIME = 4
 
 # The delay before the next ring in tandem should start
 @export var next_ring_step : float
@@ -20,6 +20,9 @@ var can_grow : bool = false
 	
 func get_next_ring_step():
 	return next_ring_step
+
+func get_radius():
+	return ($Sprite2D.get_rect().size.x / 2) * scale.x
 
 # no matter what, the rings will keep updating to the current size of the planet
 func begin_grow(delay : float):

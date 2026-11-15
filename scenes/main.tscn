@@ -17,6 +17,7 @@
 [ext_resource type="AudioStream" uid="uid://hj711fxov0sg" path="res://assets/sound/towerpitup.wav" id="15_jbj1t"]
 [ext_resource type="AudioStream" uid="uid://b0jeg66gn8vgf" path="res://assets/sound/towerpitdown.wav" id="16_muem4"]
 [ext_resource type="AudioStream" uid="uid://v2d5el4n1a7e" path="res://assets/sound/explosion.wav" id="17_muem4"]
+[ext_resource type="PackedScene" uid="uid://bmme2htuj4ekr" path="res://scenes/ponder_ui.tscn" id="18_dp3eg"]
 
 [sub_resource type="GDScript" id="GDScript_tipki"]
 script/source = "extends ColorRect
@@ -206,6 +207,9 @@ offset_bottom = 1497.1428
 pivot_offset_ratio = Vector2(0.5, 0.5)
 color = Color(0, 0, 0, 1)
 script = SubResource("GDScript_tipki")
+
+[node name="PonderUi" parent="." unique_id=2047356891 instance=ExtResource("18_dp3eg")]
+visible = false
 
 [node name="PauseMenu" parent="." unique_id=1583470581 instance=ExtResource("9_choun")]
 layer = 110
