@@ -5,10 +5,10 @@ extends Node
 @export var camera : Camera2D
 @export var ui: Node
 
-var ponderings = 1.0
+var ponderings = 2000000.0
 var planet_scale = 1
 const PLAYER_SPEED = 10000
-const ROT_SPEED = 0.5
+const ROT_SPEED = 0.75
 var is_pondering : bool = false
 
 var fire_cool_down = -0.5
@@ -24,6 +24,10 @@ const PLANET = preload("uid://bo1gnnd1wid0e")
 const BOLT = preload("uid://c2me2k2weof5b")
 
 var income_angles = [0, PI/2, PI, -PI/2, PI/4, 3*PI/4, -PI/4, -3*PI/4]
+
+var novice_wizard_mult = 1.0
+var journyman_wizard_mult = 1.0
+var elder_wizard_mult = 1.0
 
 
 var in_towerpit = false
@@ -69,9 +73,9 @@ func get_active_cost(type: int) -> int:
 	
 func get_pps(type: int) -> int:
 	match type:
-		0: return 1
-		1: return 10
-		2: return 100
+		0: return 1 * novice_wizard_mult
+		1: return 10 * journyman_wizard_mult
+		2: return 100 * elder_wizard_mult
 		3: return 0
 		4: return 0
 		
@@ -239,5 +243,16 @@ func spawn_archplanet():
 	ap.set_start()
 
 func _on_spawnarch_timeout() -> void:
-	if do_spawning and len($ArchPlanets.get_children()) < 5 and randi_range(0,3 + len($ArchPlanets.get_children())) == 0:
+	if do_spawning and len($ArchPlanets.get_children()) < 5 and randi_range(0,2 + int(len($ArchPlanets.get_children())/2)) == 0:
 		spawn_archplanet()
+
+func give_upgrade_1(idx):
+	match idx:
+		0: novice_wizard_mult *= 2.0
+		1: journyman_wizard_mult *= 2.0
+		2: novice_wizard_mult *= 10
+
+func give_upgrade_2(idx):
+	match idx:
+		0: fire_cool_down_time /= 2.0
+		1: pass #TODO 

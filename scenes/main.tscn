@@ -81,6 +81,18 @@ visible = false
 type = 5
 min_ponderings = 50
 
+[node name="Upgrade1" parent="Planet/Monoliths" unique_id=2099413415 instance=ExtResource("4_jyhfs")]
+visible = false
+type = 6
+angle_loc = 3.5
+min_ponderings = 750
+
+[node name="Upgrade2" parent="Planet/Monoliths" unique_id=2025236235 instance=ExtResource("4_jyhfs")]
+visible = false
+type = 7
+angle_loc = 0.7
+min_ponderings = 2000
+
 [node name="NoviceMages" type="Node2D" parent="Planet" unique_id=1406211565]
 top_level = true
 
