@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dqb1lbj508uuo" path="res://assets/textures/red_bolt.png" id="1_gsnt5"]
 [ext_resource type="Script" uid="uid://cdlns6tllffby" path="res://scripts/bolt.gd" id="1_hu2p6"]
+[ext_resource type="Texture2D" uid="uid://b6rqysvcfk8oc" path="res://assets/textures/yellow_bolt.png" id="3_s0h4p"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hu2p6"]
 radius = 12.0415945
@@ -12,6 +13,14 @@ region = Rect2(0, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s0h4p"]
 atlas = ExtResource("1_gsnt5")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sws5y"]
+atlas = ExtResource("3_s0h4p")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jconi"]
+atlas = ExtResource("3_s0h4p")
 region = Rect2(64, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_dr7v0"]
@@ -26,6 +35,17 @@ animations = [{
 "loop": 1,
 "name": &"default",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sws5y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jconi")
+}],
+"loop": 1,
+"name": &"yellow",
+"speed": 5.0
 }]
 
 [node name="Node2D" type="Area2D" unique_id=845284708]
@@ -40,8 +60,8 @@ shape = SubResource("CircleShape2D_hu2p6")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=150854531]
 sprite_frames = SubResource("SpriteFrames_dr7v0")
+animation = &"yellow"
 autoplay = "default"
-frame_progress = 0.6897787
 
 [node name="Timer" type="Timer" parent="." unique_id=136210056]
 wait_time = 3.0

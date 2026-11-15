@@ -1,4 +1,4 @@
-extends Node2D
+extends Area2D
 
 @onready var main_manager = get_tree().current_scene
 @onready var ring_count = $PonderRings.get_child_count()
@@ -11,6 +11,8 @@ var radius_mod = 1.0
 var income_angle = 0
 var this_planet_scale = Vector2(1.0,1.0)
 
+var hp = 20
+
 const BOLT = preload("uid://c2me2k2weof5b")
 const ARCH_ORB = preload("uid://bnomjs570alyk")
 
@@ -21,8 +23,19 @@ func _ready() -> void:
 	x_len = $Marker2D.position.x
 	
 	if not is_player:
-		radius_mod += randf_range(-0.3, -0.1)
+		match randi_range(0,2):
+			0: 
+				radius_mod -= 0.1
+				hp = 20
+			1: 
+				radius_mod -= 0.4
+				hp = 10
+			2: 
+				radius_mod -= 0.75
+				hp = 5
 		$PlanetSprite.texture = ARCH_ORB
+	else:
+		set_collision_layer_value(4, false)
 
 		
 	this_planet_scale = main_manager.get_planet_scale() * radius_mod
@@ -44,6 +57,10 @@ func _process(delta: float) -> void:
 		$Wiz.position = self.position + Vector2.from_angle(PI + income_angle) * this_planet_scale
 		$Wiz.rotation = -PI/2 + income_angle
 		$Wiz.show()
+			
+		if hp <= 0:
+			main_manager.give_back_angle(income_angle)
+			queue_free()
 		return
 		
 	var target_scale = main_manager.get_planet_scale() * radius_mod
@@ -81,6 +98,9 @@ func stop_pondering():
 	for idx in range(ring_count):
 		$PonderRings.get_child(idx).scale = Vector2(0.5, 0.5)
 		$PonderRings.get_child(idx).visible = false
+
+func hit():
+	hp -= 1
 
 
 func _on_zap_timeout() -> void:
