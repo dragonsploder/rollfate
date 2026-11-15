@@ -6,6 +6,8 @@ func _ready() -> void:
 	$TextPopup.hide()
 	
 func _process(delta: float) -> void:
+	$buttons.text = main_manager.get_buttons_context()
+	
 	$VBoxContainer/Ponderings.text = "Ponderings: " + str(main_manager.add_commas(int(main_manager.ponderings)))
 	var pps = main_manager.get_total_pps()
 	var pondering_pps = main_manager.get_current_focus_base_pps()

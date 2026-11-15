@@ -5,7 +5,7 @@ extends Node
 @export var camera : Camera2D
 @export var ui: Node
 
-var ponderings = 1.0
+var ponderings = 10000000.0
 var planet_scale = 1
 const PLAYER_SPEED = 5000
 const ROT_SPEED = 0.75
@@ -221,7 +221,8 @@ func _process(delta: float) -> void:
 			block = false
 		if Input.is_action_pressed("a"):
 			if fire_cool_down < 0.0:
-				$shoot.play()
+				if len($Planet/NavyWizzers.get_children()) > 0:
+					$shoot.play()
 				for w in $Planet/NavyWizzers.get_children():
 					if dec_ponderings(0.01 * ponderings):
 						var b = BOLT.instantiate()
@@ -262,6 +263,8 @@ func _process(delta: float) -> void:
 				if (not planet.ponder()):
 					is_pondering = false
 			else:
+				$PauseMenu.can_unpause = false
+				$PauseMenu.double_check = false
 				$PauseMenu.show()
 				get_tree().paused = true
 			
@@ -377,3 +380,14 @@ func win():
 	ui.win()
 	winning = true
 	
+func get_buttons_context():
+	if is_pondering:
+		return "Release Z: Stop Pondering | X : Focuse Ponder Beat"
+	
+	if in_towerpit:
+		return "Z: Order a Zap | X : Exit towerpit | Arrow Keys: Rotate"
+		
+	if is_instance_valid(player.active_monolith):
+		return "Z : Activate Monolith | X : Pause | Arrow Keys: Walk"
+
+	return "Z : Ponder | X : Pause | Arrow Keys: Walk"

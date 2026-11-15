@@ -134,6 +134,13 @@ bbcode_enabled = true
 text = "Ponderings: 0"
 fit_content = true
 
+[node name="buttons" type="RichTextLabel" parent="." unique_id=962839105]
+offset_left = 423.0
+offset_right = 1152.0
+offset_bottom = 24.0
+text = "Z : Focus | Arrow Keys: Walk"
+horizontal_alignment = 2
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1328723298]
 libraries/ = SubResource("AnimationLibrary_yev5y")
 

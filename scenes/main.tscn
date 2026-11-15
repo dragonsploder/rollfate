@@ -208,6 +208,7 @@ color = Color(0, 0, 0, 1)
 script = SubResource("GDScript_tipki")
 
 [node name="PauseMenu" parent="." unique_id=1583470581 instance=ExtResource("9_choun")]
+layer = 110
 visible = false
 
 [node name="Music" type="AudioStreamPlayer" parent="." unique_id=1619114680]
