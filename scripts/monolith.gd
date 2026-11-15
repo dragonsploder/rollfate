@@ -18,6 +18,7 @@ const MONOLITH_5 = preload("uid://1fe5bk2y20rg")
 const MONOLITH_6 = preload("uid://dnx71sf010e81")
 const SKULL = preload("uid://bi8xyb4f30t6s")
 const TREE_1 = preload("uid://smympd4r2qo4")
+const MONOLITH_WIN = preload("uid://crite8glwewf7")
 
 
 var monolith_sprites = [
@@ -30,33 +31,46 @@ var monolith_sprites = [
 	MONOLITH_5,
 	MONOLITH_5,
 	SKULL,
-	TREE_1
+	TREE_1,
+	MONOLITH_WIN
 ]
 var current_upgrade = 0
 
 var upgrades1 = [
 	"Better Robes\nCOST ponderings\nNovice Wizards Ponder twice as much",
+	"Rings of Power\nCOST ponderings\nNovice Wizards Ponder twice as much",
 	"Pointier Hats\nCOST ponderings\nJournyman Wizards Ponder twice as much",
 	"Christmas Bonus\nCOST ponderings\nNovice Wizards Ponder ten times as much",
+	"Nose Hair Trimmers\nCOST ponderings\nJournyman Wizards Ponder five times as much",
+	"Beard Combs\nCOST ponderings\nElder Wizards Ponder five times as much",
 	"OUT OF STOCK"
 ]
 
 var upgrades1_costs = [
-	100,
-	750,
-	5000,
-	0
+	772,
+	4_500,
+	20_000,
+	50_000,
+	100_000,
+	500_000,
+	0,
 ]
 
 var upgrades2 = [
+	"Deeper Thoughts\n COST ponderings\nYou can focus ponder four times as much",
+	"Deeper Thoughts Level II \n COST ponderings\nYou can focus ponder six times as much",
+	"Deeper Thoughts Level III \n COST ponderings\nYou can focus ponder seven times as much",
 	"More Power\n COST ponderings\nAbjuration Wizards can shoot twice as fast",
-	"Deeper Thoughts\n COST ponderings\nYou can focus ponder twice as much", #TODO
+	"Deeper Thoughts Level IV \n COST ponderings\nYou can focus ponder twenty times as much",
 	"OUT OF STOCK"
 ]
 
 var upgrades2_costs = [
-	2000,
-	5000,
+	440,
+	2_100,
+	14_000,
+	20_000,
+	500_000,
 	0
 ]
 
@@ -140,9 +154,11 @@ func get_monolith_text():
 	elif type == 8:
 		return current_skull_text
 	elif type == 9:
-		return "Plant Tree\n5000 pondering\nOffers vibes and some protection"
+		return "Plant Tree\n5,000 pondering\nOffers vibes and some protection"
+	elif type == 10:
+		return "Ascend\n100,000,000 ponderings"
 		
-	return monolith_texts[type].replace("COST", str(main_manager.get_active_cost(type))).replace("PPS", str(main_manager.get_pps(type)))
+	return monolith_texts[type].replace("COST", main_manager.add_commas(str(main_manager.get_active_cost(type)))).replace("PPS", str(main_manager.add_commas(main_manager.get_pps(type))))
 
 func attempt_active_monolith():
 	if type == 5:
@@ -157,6 +173,8 @@ func attempt_active_monolith():
 		return
 	elif type == 9 and main_manager.dec_ponderings(5000):
 		main_manager.spawn_mage(9)
+	elif type == 10 and main_manager.dec_ponderings(100000000):
+		main_manager.win()
 	else:
 		if main_manager.dec_ponderings(main_manager.get_active_cost(type)):
 			var t = TITLE.instantiate()

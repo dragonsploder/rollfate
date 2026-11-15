@@ -17,7 +17,7 @@ var hp = 20
 
 var difficulty = 1.0
 
-var ponder_bonus = 20
+var ponder_bonus = 5
 var ponder_income = 1
 var ponder_vol_mod = 0.3
 

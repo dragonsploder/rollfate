@@ -61,59 +61,66 @@ top_level = true
 [node name="monolith1" parent="Planet/Monoliths" unique_id=1795794584 instance=ExtResource("4_jyhfs")]
 visible = false
 angle_loc = 1.8
+min_ponderings = 57
 
 [node name="monolith2" parent="Planet/Monoliths" unique_id=1871956154 instance=ExtResource("4_jyhfs")]
 visible = false
 type = 1
 angle_loc = 3.0
-min_ponderings = 333
+min_ponderings = 1800
 
 [node name="monolith3" parent="Planet/Monoliths" unique_id=1149355398 instance=ExtResource("4_jyhfs")]
 visible = false
 type = 2
 angle_loc = 5.0
-min_ponderings = 3333
+min_ponderings = 50000
 
 [node name="NavyWizzers" parent="Planet/Monoliths" unique_id=1124973633 instance=ExtResource("4_jyhfs")]
 visible = false
 type = 3
 angle_loc = 5.5
-min_ponderings = 100
+min_ponderings = 11000
 
 [node name="NavyWizzers2" parent="Planet/Monoliths" unique_id=392674756 instance=ExtResource("4_jyhfs")]
 visible = false
 type = 4
 angle_loc = 2.5
-min_ponderings = 200
+min_ponderings = 30000
 
 [node name="TowerPit" parent="Planet/Monoliths" unique_id=732266548 instance=ExtResource("4_jyhfs")]
 visible = false
 type = 5
-min_ponderings = 50
+min_ponderings = 9000
 
 [node name="Upgrade1" parent="Planet/Monoliths" unique_id=2099413415 instance=ExtResource("4_jyhfs")]
 visible = false
 type = 6
 angle_loc = 3.5
-min_ponderings = 750
+min_ponderings = 500
 
 [node name="Upgrade2" parent="Planet/Monoliths" unique_id=2025236235 instance=ExtResource("4_jyhfs")]
 visible = false
 type = 7
 angle_loc = 0.7
-min_ponderings = 2000
+min_ponderings = 200
 
 [node name="Skull" parent="Planet/Monoliths" unique_id=418586885 instance=ExtResource("4_jyhfs")]
 visible = false
 type = 8
 angle_loc = 4.8
-min_ponderings = 1000
+min_ponderings = 2200
 
 [node name="Tree" parent="Planet/Monoliths" unique_id=472959786 instance=ExtResource("4_jyhfs")]
 visible = false
 type = 9
 angle_loc = 4.2
-min_ponderings = 1000
+min_ponderings = 100000
+
+[node name="end" parent="Planet/Monoliths" unique_id=982337199 instance=ExtResource("4_jyhfs")]
+visible = false
+type = 10
+angle_loc = 3.5
+min_ponderings = 250000
 
 [node name="NoviceMages" type="Node2D" parent="Planet" unique_id=1406211565]
 top_level = true
@@ -172,7 +179,7 @@ wait_time = 0.1
 autostart = true
 
 [node name="spawnarch" type="Timer" parent="." unique_id=1746324747]
-wait_time = 5.0
+wait_time = 60.0
 autostart = true
 
 [node name="ArchPlanets" type="Node2D" parent="." unique_id=386266184]
@@ -205,6 +212,7 @@ script = SubResource("GDScript_tipki")
 visible = false
 
 [node name="PauseMenu" parent="." unique_id=1583470581 instance=ExtResource("9_choun")]
+layer = 110
 visible = false
 
 [node name="Music" type="AudioStreamPlayer" parent="." unique_id=1619114680]

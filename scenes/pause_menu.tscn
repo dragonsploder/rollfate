@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://dgx0qyswusuuc"]
 
+[ext_resource type="PackedScene" uid="uid://cdxr6xt3qgajk" path="res://scenes/main.tscn" id="1_n87rw"]
+
 [sub_resource type="GDScript" id="GDScript_cu0mx"]
 script/source = "extends CanvasLayer
 
@@ -7,31 +9,82 @@ script/source = "extends CanvasLayer
 @onready var volume_slider: HSlider = $Control/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VolumeSlider
 @onready var volume_sfx_slider: HSlider = $Control/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VolumeSlider
 
+@export var main: PackedScene
+
+var can_unpause = false
+var double_check = false
 
 func _ready() -> void:
 	volume_slider.value = start_volume
 	volume_sfx_slider.value = start_volume
 	_on_volume_slider_value_changed(start_volume)
 	_on_volume_sfx_slider_value_changed(start_volume)
+	
+
+func _process(delta: float) -> void:
+	if not self.visible:
+		return
+	if Input.is_action_just_released(\"b\"):
+		can_unpause = true
+	if Input.is_action_just_pressed(\"b\") and can_unpause:
+		if double_check:
+			$Control/PanelContainer2.hide()
+			double_check = false
+		else:
+			_on_return_pressed()
+	if Input.is_action_just_pressed(\"a\"):
+		if double_check:
+			reload()
+		else:
+			$Control/PanelContainer2.show()
+			double_check = true
+	if Input.is_action_pressed(\"r\"):
+		volume_slider.value += delta
+	if Input.is_action_pressed(\"l\"):
+		volume_slider.value -= delta
+	if Input.is_action_pressed(\"u\"):
+		volume_sfx_slider.value += delta
+	if Input.is_action_pressed(\"d\"):
+		volume_sfx_slider.value -= delta
 
 func _on_volume_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_linear(AudioServer.get_bus_index(\"MUSIC\"), value)
 
 func _on_exit_pressed() -> void:
-	get_tree().quit()
-
+	double_check = true
+	$Control/PanelContainer2.show()
+	
+func reload():
+	get_tree().paused = false
+	get_tree().reload_current_scene()
+	
 func _on_return_pressed() -> void:
+	if double_check:
+		return
 	get_tree().paused = false
 	hide()
 
 
 func _on_volume_sfx_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_linear(AudioServer.get_bus_index(\"SFX\"), value)
+
+
+func _on_yes_pressed() -> void:
+	reload()
+
+
+func _on_no_pressed() -> void:
+	double_check = false
+	$Control/PanelContainer2.hide()
 "
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g4v7s"]
+bg_color = Color(0.021434654, 0.021434627, 0.021434633, 1)
 
 [node name="PauseMenu" type="CanvasLayer" unique_id=1583470581]
 process_mode = 3
 script = SubResource("GDScript_cu0mx")
+main = ExtResource("1_n87rw")
 
 [node name="Control" type="Control" parent="." unique_id=2121397943]
 layout_mode = 3
@@ -75,7 +128,7 @@ horizontal_alignment = 1
 [node name="Return" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer" unique_id=111417285]
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
-text = "Return
+text = "X : Return
 "
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/VBoxContainer" unique_id=2084665762]
@@ -85,7 +138,7 @@ alignment = 1
 [node name="Volume" type="RichTextLabel" parent="Control/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1345915392]
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 48
-text = "Music Volume"
+text = "Music Volume (← →)"
 fit_content = true
 autowrap_mode = 0
 horizontal_alignment = 1
@@ -104,7 +157,7 @@ alignment = 1
 [node name="Volume" type="RichTextLabel" parent="Control/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1026359138]
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 48
-text = "SFX Volume"
+text = "SFX Volume (↑ ↓)"
 fit_content = true
 autowrap_mode = 0
 horizontal_alignment = 1
@@ -119,7 +172,44 @@ step = 0.01
 [node name="Exit" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer" unique_id=1537881823]
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
-text = "Exit Game"
+text = "Z : Restart Game"
+
+[node name="PanelContainer2" type="PanelContainer" parent="Control" unique_id=1053769795]
+visible = false
+layout_mode = 0
+offset_left = 288.0
+offset_top = 208.0
+offset_right = 865.0
+offset_bottom = 484.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_g4v7s")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PanelContainer2" unique_id=505090492]
+layout_mode = 2
+alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control/PanelContainer2/VBoxContainer" unique_id=1070890484]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 39
+text = "Are you sure?
+(reset all progress)"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/PanelContainer2/VBoxContainer" unique_id=2131194684]
+layout_mode = 2
+alignment = 1
+
+[node name="Yes" type="Button" parent="Control/PanelContainer2/VBoxContainer/HBoxContainer" unique_id=1233665921]
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Z : Yes"
+
+[node name="No" type="Button" parent="Control/PanelContainer2/VBoxContainer/HBoxContainer" unique_id=729429958]
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "X : No"
 
 [connection signal="pressed" from="Control/PanelContainer/MarginContainer/VBoxContainer/Return" to="." method="_on_return_pressed"]
 [connection signal="drag_ended" from="Control/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VolumeSlider" to="." method="_on_volume_slider_drag_ended"]
@@ -127,3 +217,5 @@ text = "Exit Game"
 [connection signal="drag_ended" from="Control/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VolumeSlider" to="." method="_on_volume_slider_drag_ended"]
 [connection signal="value_changed" from="Control/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VolumeSlider" to="." method="_on_volume_sfx_slider_value_changed"]
 [connection signal="pressed" from="Control/PanelContainer/MarginContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="Control/PanelContainer2/VBoxContainer/HBoxContainer/Yes" to="." method="_on_yes_pressed"]
+[connection signal="pressed" from="Control/PanelContainer2/VBoxContainer/HBoxContainer/No" to="." method="_on_no_pressed"]
