@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dnr0qecugxb7a" path="res://scenes/monolith.tscn" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://djwf4ifuh6r4m" path="res://scenes/sky_small.tscn" id="4_tefeu"]
 [ext_resource type="PackedScene" uid="uid://d2ww3ggvauiy8" path="res://scenes/sky_medium.tscn" id="5_tipki"]
+[ext_resource type="Texture2D" uid="uid://duscwih60306i" path="res://assets/textures/PonderRing2.svg" id="6_0ld40"]
 [ext_resource type="PackedScene" uid="uid://domu45u2qim14" path="res://scenes/sky_large.tscn" id="6_85g3d"]
 [ext_resource type="PackedScene" uid="uid://dgx0qyswusuuc" path="res://scenes/pause_menu.tscn" id="9_choun"]
 [ext_resource type="AudioStream" uid="uid://cywean18hsmf8" path="res://assets/sound/Deep Think.ogg" id="10_choun"]
@@ -170,6 +171,11 @@ update_scale = false
 remote_path = NodePath("../trees")
 update_position = false
 update_scale = false
+
+[node name="PonderBarrier" type="Sprite2D" parent="." unique_id=421899375]
+visible = false
+modulate = Color(0, 0.16862746, 0.5411765, 0.38431373)
+texture = ExtResource("6_0ld40")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=156155111]
 ignore_rotation = false
