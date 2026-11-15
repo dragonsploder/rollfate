@@ -23,7 +23,16 @@ func _ready() -> void:
 	x_len = $Marker2D.position.x
 	
 	if not is_player:
-		radius_mod += randf_range(-0.3, -0.1)
+		match randi_range(0,2):
+			0: 
+				radius_mod -= 0.1
+				hp = 20
+			1: 
+				radius_mod -= 0.4
+				hp = 10
+			2: 
+				radius_mod -= 0.75
+				hp = 5
 		$PlanetSprite.texture = ARCH_ORB
 	else:
 		set_collision_layer_value(4, false)
