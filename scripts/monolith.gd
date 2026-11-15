@@ -156,9 +156,9 @@ func get_monolith_text():
 	elif type == 9:
 		return "Plant Tree\n5000 pondering\nOffers vibes and some protection"
 	elif type == 10:
-		return "Ascend\n100000000 ponderings"
+		return "Ascend\n100,000,000 ponderings"
 		
-	return monolith_texts[type].replace("COST", str(main_manager.get_active_cost(type))).replace("PPS", str(main_manager.get_pps(type)))
+	return monolith_texts[type].replace("COST", main_manager.add_commas(str(main_manager.get_active_cost(type)))).replace("PPS", str(main_manager.add_commas(main_manager.get_pps(type))))
 
 func attempt_active_monolith():
 	if type == 5:

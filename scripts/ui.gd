@@ -6,8 +6,8 @@ func _ready() -> void:
 	$TextPopup.hide()
 	
 func _process(delta: float) -> void:
-	$Ponderings.text = "Ponderings: " + str(int(main_manager.ponderings))
-	$PPS.text = "PPS: " + str(int(main_manager.get_total_pps()))
+	$Ponderings.text = "Ponderings: " + str(main_manager.add_commas(int(main_manager.ponderings)))
+	$PPS.text = "PPS: " + str(main_manager.add_commas(int(main_manager.get_total_pps())))
 
 func show_text_popup(text: String):
 	$TextPopup.show()
