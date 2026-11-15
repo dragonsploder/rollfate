@@ -5,7 +5,7 @@ extends Node
 @export var camera : Camera2D
 @export var ui: Node
 
-var ponderings = 100000.0
+var ponderings = 1.0
 var planet_scale = 1
 const PLAYER_SPEED = 5000
 const ROT_SPEED = 0.75
@@ -59,6 +59,18 @@ var think_sounds = [
 	THINK_7,
 	THINK_8,
 	THINK_9,
+]
+
+const BELL_1 = preload("uid://bck1cwqlrg8gn")
+const BELL_2 = preload("uid://m5po6c4sxdlw")
+const BELL_3 = preload("uid://hvamj1g8qjfd")
+const BELL_4 = preload("uid://c65c71w2j6jo0")
+
+var bell_sounds = [
+	BELL_1,
+	BELL_2,
+	BELL_3,
+	BELL_4
 ]
 
 const NOV_READ = preload("uid://bsqh71tq3hnvt")

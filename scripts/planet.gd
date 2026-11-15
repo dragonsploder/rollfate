@@ -20,7 +20,7 @@ var difficulty = 1.0
 var ponder_success_radius = 75
 var ponder_bonus = 8
 var ponder_income = 1
-var ponder_vol_mod = 0.3
+var ponder_vol_mod = 0.6
 
 const BOLT = preload("uid://c2me2k2weof5b")
 const ARCH_ORB = preload("uid://bnomjs570alyk")
@@ -100,9 +100,12 @@ func ponder():
 		if (get_radius() - $PonderRings.get_child(idx).get_radius() < ponder_success_radius):
 			main_manager.inc_ponderings(ponder_bonus * ponder_income)
 			$PonderRings.get_child(idx).cull()
+			$PonderGood.stream = main_manager.bell_sounds.pick_random()
+			$PonderGood.play()
 			return true
 	stop_pondering()
 	$FailState.play("fail_ponder_animation")
+	$PonderBad.play()
 	return false
 
 func get_radius():
