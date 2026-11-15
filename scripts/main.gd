@@ -35,6 +35,8 @@ var entering_towerpit = false
 var block = false
 var do_spin = true
 
+var start_scroll = true
+
 const TREE_2 = preload("uid://dp5oeo8a81vj0")
 
 const THINK_1 = preload("uid://csq887qihfyuj")
@@ -68,6 +70,8 @@ var winning = false
 var planet_difficulty = 1
 
 var seen_mono = []
+
+var minimap_things = []
 
 static func add_commas(number):
 	number = int(number)
@@ -137,7 +141,25 @@ func get_current_focus_base_pps():
 		return 0
 
 func _ready() -> void:
+	var text_scroll = "You are a young ponderer. You are determined to grow your orb to mythic proprotions and gain 1,000,000 ponderings.\n\n- Hold Z to ponder, and press X when the white ponder rings grow to the size of the orb for a bonus.\n- Monoliths let you spend ponder to hire pondering wizards.\n\nGood luck!"
 	planet_scale = get_planet_scale_raw()
+	ui.show_text_popup(text_scroll)
+		# minimap stufff
+
+	minimap_things.append(ui.place_on_minimap(Color.html("fa6a0a"), 1.8))
+	minimap_things.append(ui.place_on_minimap(Color.html("14a02e"), 3.0))
+	minimap_things.append(ui.place_on_minimap(Color.html("bc4a9b"), 5.0))
+	minimap_things.append(ui.place_on_minimap(Color.html("f8c53a"), 5.5))
+	minimap_things.append(ui.place_on_minimap(Color.html("f8c53a"), 2.5))
+	minimap_things.append(ui.place_on_minimap(Color.html("3d1530"), 0.0))
+	minimap_things.append(ui.place_on_minimap(Color.html("639bff"), 3.5))
+	minimap_things.append(ui.place_on_minimap(Color.html("639bff"), 0.7))
+	minimap_things.append(ui.place_on_minimap(Color.html("ffe0b7"), 4.8))
+	minimap_things.append(ui.place_on_minimap(Color.html("6abe30"), 4.2))
+	minimap_things.append(ui.place_on_minimap(Color.html("f8f644"), 3.5))
+	
+	minimap_things.append(ui.place_on_minimap(Color(0.085, 0.392, 1.0, 1.0), player.angle, true))
+	minimap_things[11].show()
 	
 func show_text_popup(text: String):
 	if not in_towerpit and not entering_towerpit:
@@ -162,6 +184,18 @@ func _process(delta: float) -> void:
 	fire_cool_down -= delta
 	planet_scale = lerp(float(planet_scale), get_planet_scale_raw(), 0.99 * delta)
 	
+	minimap_things[11].rotation = player.angle
+	
+	if start_scroll:
+		camera.position = player.position
+		camera.rotation = player.rotation
+		if Input.is_action_just_pressed("a"):
+			start_scroll = false
+			hide_text_popup()
+		return
+	
+
+	
 	if ponderings > 10_000 and not do_spawning:
 		do_spawning = true
 		_on_spawnarch_timeout()
@@ -172,10 +206,12 @@ func _process(delta: float) -> void:
 	#	planet_difficulty = 3
 	
 	# handle monoliths
-	for mono in $Planet/Monoliths.get_children():
+	for i in range(len($Planet/Monoliths.get_children())):
+		var mono = $Planet/Monoliths.get_children()[i]
 		if ponderings >= mono.min_ponderings:
 			mono.active = true
 			mono.show()
+			minimap_things[i].show()
 			if not mono.type in seen_mono:
 				seen_mono.append(mono.type)
 				$newmono.play()
@@ -382,12 +418,15 @@ func win():
 	
 func get_buttons_context():
 	if is_pondering:
-		return "Release Z: Stop Pondering | X : Focuse Ponder Beat"
+		return "Release Z: Stop Pondering | X : Focus Ponder Beat"
 	
 	if in_towerpit:
 		return "Z: Order a Zap | X : Exit towerpit | Arrow Keys: Rotate"
 		
 	if is_instance_valid(player.active_monolith):
 		return "Z : Activate Monolith | X : Pause | Arrow Keys: Walk"
+	
+	if start_scroll:
+		return "Z: Begin game"
 
 	return "Z : Ponder | X : Pause | Arrow Keys: Walk"
