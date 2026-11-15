@@ -98,9 +98,9 @@ func ponder():
 		if (scale.x - $PonderRings.get_child(idx).scale.x < 0.2):
 			main_manager.inc_ponderings(ponder_bonus * ponder_income)
 			$PonderRings.get_child(idx).cull()
-			print("good ponder!")
 			return true
 	stop_pondering()
+	$FailState.play("fail_ponder_animation")
 	return false
 
 func start_pondering():

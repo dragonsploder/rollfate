@@ -5,7 +5,7 @@ extends Node
 @export var camera : Camera2D
 @export var ui: Node
 
-var ponderings = 100000.0
+var ponderings = 1.0
 var planet_scale = 1
 const PLAYER_SPEED = 5000
 const ROT_SPEED = 0.75
@@ -217,11 +217,9 @@ func _process(delta: float) -> void:
 		if Input.is_action_just_pressed("a"):
 			if is_instance_valid(player.active_monolith):
 				player.active_monolith.attempt_active_monolith()
-		
-		# Start pondering on 'a', and continue to ponder under released
-		if (Input.is_action_pressed("a") and not is_pondering):
-			planet.start_pondering()
-			is_pondering = true
+			elif (not is_pondering):
+				planet.start_pondering()
+				is_pondering = true
 			
 		elif (Input.is_action_just_released("a") and is_pondering):
 			is_pondering = false

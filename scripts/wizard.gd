@@ -106,7 +106,7 @@ func _on_timer_timeout() -> void:
 	if randi_range(0, 400) == 0:
 		$thinkings.text = thinkings.pick_random()
 		$thinkings.show()
-	if randi_range(0, 20) == 0:
+	if randi_range(0, 30) == 0:
 		$thinkings.hide()
 	if randi_range(0, 1000) == 0:
 		$thinker.stream = main_manager.think_sounds.pick_random()
