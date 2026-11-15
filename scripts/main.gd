@@ -5,7 +5,7 @@ extends Node
 @export var camera : Camera2D
 @export var ui: Node
 
-var ponderings = 20000.0
+var ponderings = 1.0
 var planet_scale = 1
 const PLAYER_SPEED = 5000
 const ROT_SPEED = 0.75
@@ -111,7 +111,7 @@ func enter_towerpit():
 
 func get_active_cost(type: int) -> int:
 	match type:
-		0: return 77 + 6 * pow(1.5 * get_num_wizards(0), 2)
+		0: return 77 + 6.0 * pow(1.5 * get_num_wizards(0), 2)
 		1: return 3300 + 80 * pow(2 * get_num_wizards(1), 2)
 		2: return 120_000 + 50_000 * pow(3*get_num_wizards(2),2)
 		
@@ -129,6 +129,12 @@ func get_pps(type: int) -> int:
 		4: return 0
 		
 	return 1
+
+func get_current_focus_base_pps():
+	if is_pondering:
+		return planet.ponder_income
+	else:
+		return 0
 
 func _ready() -> void:
 	planet_scale = get_planet_scale_raw()
