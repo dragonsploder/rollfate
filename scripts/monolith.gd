@@ -154,7 +154,7 @@ func get_monolith_text():
 	elif type == 8:
 		return current_skull_text
 	elif type == 9:
-		return "Plant Tree\n5000 pondering\nOffers vibes and some protection"
+		return "Plant Tree\n5,000 pondering\nOffers vibes and some protection"
 	elif type == 10:
 		return "Ascend\n100,000,000 ponderings"
 		
