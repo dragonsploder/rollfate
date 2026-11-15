@@ -319,6 +319,9 @@ func _process(delta: float) -> void:
 		camera.position = player.position
 		camera.rotation = player.rotation
 
+func show_ponder_bonus(amt):
+	player.give_bonus(amt)
+
 func dec_ponderings(amt: float) -> bool:
 	if amt < ponderings:
 		ponderings -= amt

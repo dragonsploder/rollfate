@@ -110,6 +110,7 @@ func ponder():
 		$PonderBad.play()
 		return false
 	else:
+		main_manager.show_ponder_bonus(ponder_bonus*ponder_income)
 		main_manager.inc_ponderings(ponder_bonus * ponder_income)
 		$PonderRings.get_child(i).cull()
 		$PonderGood.stream = main_manager.bell_sounds.pick_random()

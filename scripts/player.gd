@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var main_manager = get_tree().current_scene
+const TITLE = preload("uid://dkvahcolwkcjq")
 
 var is_player = true
 
@@ -46,3 +47,9 @@ func _on_player_exited(area: Area2D) -> void:
 		if area.has_method("get_monolith_text"):
 			active_monolith = null
 			main_manager.hide_text_popup()
+
+func give_bonus(b):
+		var t = TITLE.instantiate()
+		$AnimatedSprite2D.add_child(t)
+		t.position.y += 40
+		t.set_text("+" + str(main_manager.add_commas(b)) + " pondering")
