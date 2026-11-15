@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bcn4dklhpvucx" path="res://scripts/ui.gd" id="1_nt7q6"]
 [ext_resource type="Theme" uid="uid://bmmu75emuagmh" path="res://materials/main_theme.tres" id="2_x4jx1"]
+[ext_resource type="Texture2D" uid="uid://dyupgx5kbbmav" path="res://assets/textures/pixel_orb_sprite.png" id="3_yev5y"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g2els"]
 bg_color = Color(0.10980392, 0.10980392, 0.10980392, 0.8627451)
@@ -176,3 +177,7 @@ Made By:
 Joshua Bourgeot
 Andrew Jameison"
 horizontal_alignment = 1
+
+[node name="minimap" type="Sprite2D" parent="." unique_id=313989171]
+position = Vector2(1065, 82)
+texture = ExtResource("3_yev5y")

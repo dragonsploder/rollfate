@@ -66,3 +66,21 @@ func win():
 	$VBoxContainer/PPS.hide()
 	$AnimationPlayer.play("win")
 	
+func place_on_minimap(color, angle, player=false):
+	var cr = ColorRect.new()
+	cr.color = color
+	if not player:
+		cr.custom_minimum_size = Vector2(2,10)
+		cr.custom_maximum_size = Vector2(2,10)
+		cr.position = Vector2(0.5,-45.5)
+		cr.pivot_offset = Vector2(-0.5,45.5)
+	else:
+		cr.custom_minimum_size = Vector2(2,15)
+		cr.custom_maximum_size = Vector2(2,15)		
+		cr.position = Vector2(0.5,-50.5)
+		cr.pivot_offset = Vector2(-0.5,50.5)
+		
+	cr.rotation = angle
+	$minimap.add_child(cr)
+	cr.hide()
+	return cr
