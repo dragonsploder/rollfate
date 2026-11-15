@@ -10,6 +10,7 @@ func _ready() -> void:
 	_on_volume_slider_value_changed(start_volume)
 
 func _on_start_pressed() -> void:
+	pass
 	get_tree().change_scene_to_packed(main)
 
 func _on_volume_slider_value_changed(value: float) -> void:
@@ -18,8 +19,3 @@ func _on_volume_slider_value_changed(value: float) -> void:
 
 func _on_exit_pressed() -> void:
 	get_tree().quit()
-
-
-func _on_return_pressed() -> void:
-	get_tree().paused = false
-	get_parent().hide()

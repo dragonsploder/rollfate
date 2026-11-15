@@ -2,7 +2,22 @@
 
 [ext_resource type="Texture2D" uid="uid://dn3wiyod83amu" path="res://assets/textures/PonderRing.svg" id="1_mqdd7"]
 
+[sub_resource type="GDScript" id="GDScript_uahpa"]
+script/source = "extends Node2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+#TODO as long as 
+func _process(delta: float) -> void:
+	pass
+"
+
 [node name="PonderRing" type="Node2D" unique_id=666884959]
+script = SubResource("GDScript_uahpa")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=740081740]
 texture = ExtResource("1_mqdd7")

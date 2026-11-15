@@ -198,8 +198,8 @@ func _process(delta: float) -> void:
 				is_pondering = false
 				planet.stop_pondering()
 			else:
-				get_tree().paused = true
 				$PauseMenu.show()
+				get_tree().paused = true
 			
 		camera.position = player.position
 		camera.rotation = player.rotation

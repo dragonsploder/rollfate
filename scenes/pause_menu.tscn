@@ -1,22 +1,40 @@
 [gd_scene format=3 uid="uid://dgx0qyswusuuc"]
 
-[ext_resource type="Theme" uid="uid://bmmu75emuagmh" path="res://materials/main_theme.tres" id="1_kukqi"]
-[ext_resource type="Script" uid="uid://darx2x7vjp68j" path="res://scripts/start_menu.gd" id="2_5d2l8"]
-[ext_resource type="PackedScene" uid="uid://cdxr6xt3qgajk" path="res://scenes/main.tscn" id="3_7l7mv"]
+[sub_resource type="GDScript" id="GDScript_cu0mx"]
+script/source = "extends CanvasLayer
 
-[node name="Control" type="Control" unique_id=262659646]
+@export var start_volume : float = 0.8
+@onready var volume_slider: HSlider = $Control/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VolumeSlider
+
+
+func _ready() -> void:
+	volume_slider.value = start_volume
+	_on_volume_slider_value_changed(start_volume)
+
+func _on_volume_slider_value_changed(value: float) -> void:
+	AudioServer.set_bus_volume_linear(AudioServer.get_bus_index(\"Master\"), value)
+
+func _on_exit_pressed() -> void:
+	get_tree().quit()
+
+func _on_return_pressed() -> void:
+	get_tree().paused = false
+	hide()
+"
+
+[node name="PauseMenu" type="CanvasLayer" unique_id=1583470581]
 process_mode = 3
+script = SubResource("GDScript_cu0mx")
+
+[node name="Control" type="Control" parent="." unique_id=2121397943]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_kukqi")
-script = ExtResource("2_5d2l8")
-main = ExtResource("3_7l7mv")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1167874164]
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=1167874164]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,7 +43,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="PanelContainer" type="PanelContainer" parent="." unique_id=2093700461]
+[node name="PanelContainer" type="PanelContainer" parent="Control" unique_id=2093700461]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -33,31 +51,31 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=2028023592]
+[node name="MarginContainer" type="MarginContainer" parent="Control/PanelContainer" unique_id=2028023592]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer" unique_id=50159291]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PanelContainer/MarginContainer" unique_id=50159291]
 layout_mode = 2
 alignment = 1
 
-[node name="Title" type="RichTextLabel" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=173002093]
+[node name="Title" type="RichTextLabel" parent="Control/PanelContainer/MarginContainer/VBoxContainer" unique_id=173002093]
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 80
 text = "Pause"
 fit_content = true
 horizontal_alignment = 1
 
-[node name="Return" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=111417285]
+[node name="Return" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer" unique_id=111417285]
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
 text = "Return
 "
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=2084665762]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/VBoxContainer" unique_id=2084665762]
 layout_mode = 2
 alignment = 1
 
-[node name="Volume" type="RichTextLabel" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1345915392]
+[node name="Volume" type="RichTextLabel" parent="Control/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1345915392]
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 48
 text = "Volume"
@@ -65,27 +83,19 @@ fit_content = true
 autowrap_mode = 0
 horizontal_alignment = 1
 
-[node name="VolumeSlider" type="HSlider" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=26098725]
+[node name="VolumeSlider" type="HSlider" parent="Control/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=26098725]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 max_value = 1.0
 step = 0.01
 
-[node name="Exit" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1537881823]
+[node name="Exit" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer" unique_id=1537881823]
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
 text = "Exit Game"
 
-[node name="ExitButton" type="Control" parent="." unique_id=2120355757]
-layout_mode = 1
-anchors_preset = 0
-offset_left = 25.0
-offset_top = 25.0
-offset_right = 75.0
-offset_bottom = 75.0
-
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Return" to="." method="_on_return_pressed"]
-[connection signal="drag_ended" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VolumeSlider" to="." method="_on_volume_slider_drag_ended"]
-[connection signal="value_changed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VolumeSlider" to="." method="_on_volume_slider_value_changed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="Control/PanelContainer/MarginContainer/VBoxContainer/Return" to="." method="_on_return_pressed"]
+[connection signal="drag_ended" from="Control/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VolumeSlider" to="." method="_on_volume_slider_drag_ended"]
+[connection signal="value_changed" from="Control/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VolumeSlider" to="." method="_on_volume_slider_value_changed"]
+[connection signal="pressed" from="Control/PanelContainer/MarginContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]

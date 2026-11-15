@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://djwf4ifuh6r4m" path="res://scenes/sky_small.tscn" id="4_tefeu"]
 [ext_resource type="PackedScene" uid="uid://d2ww3ggvauiy8" path="res://scenes/sky_medium.tscn" id="5_tipki"]
 [ext_resource type="PackedScene" uid="uid://domu45u2qim14" path="res://scenes/sky_large.tscn" id="6_85g3d"]
-[ext_resource type="PackedScene" uid="uid://dgx0qyswusuuc" path="res://scenes/pause_menu.tscn" id="9_85g3d"]
+[ext_resource type="PackedScene" uid="uid://dgx0qyswusuuc" path="res://scenes/pause_menu.tscn" id="9_choun"]
 [ext_resource type="AudioStream" uid="uid://cywean18hsmf8" path="res://assets/sound/Deep Think.ogg" id="10_choun"]
 
 [sub_resource type="GDScript" id="GDScript_tipki"]
@@ -193,10 +193,8 @@ pivot_offset_ratio = Vector2(0.5, 0.5)
 color = Color(0, 0, 0, 1)
 script = SubResource("GDScript_tipki")
 
-[node name="PauseMenu" type="CanvasLayer" parent="." unique_id=1365303724]
+[node name="PauseMenu" parent="." unique_id=1583470581 instance=ExtResource("9_choun")]
 visible = false
-
-[node name="Control" parent="PauseMenu" unique_id=262659646 instance=ExtResource("9_85g3d")]
 
 [node name="Music" type="AudioStreamPlayer" parent="." unique_id=1619114680]
 stream = ExtResource("10_choun")
