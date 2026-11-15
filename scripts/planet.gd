@@ -96,17 +96,25 @@ func _process(delta: float) -> void:
 
 # if the outer ring is at the outer radius of the planet, you get a bonus! otherwise kicked out
 func ponder():
+	var none_in_range = true
+	var i = -1
 	for idx in range(ring_count):
 		if (get_radius() - $PonderRings.get_child(idx).get_radius() < ponder_success_radius):
-			main_manager.inc_ponderings(ponder_bonus * ponder_income)
-			$PonderRings.get_child(idx).cull()
-			$PonderGood.stream = main_manager.bell_sounds.pick_random()
-			$PonderGood.play()
-			return true
-	stop_pondering()
-	$FailState.play("fail_ponder_animation")
-	$PonderBad.play()
-	return false
+			none_in_range = false
+			if ($PonderRings.get_child(idx).get_radius() > $PonderRings.get_child(i).get_radius()):
+				i = idx
+
+	if (none_in_range):
+		stop_pondering()
+		$FailState.play("fail_ponder_animation")
+		$PonderBad.play()
+		return false
+	else:
+		main_manager.inc_ponderings(ponder_bonus * ponder_income)
+		$PonderRings.get_child(i).cull()
+		$PonderGood.stream = main_manager.bell_sounds.pick_random()
+		$PonderGood.play()
+		return true
 
 func get_radius():
 	return ($PlanetSprite.get_rect().size.x / 2) * scale.x
