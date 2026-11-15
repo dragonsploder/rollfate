@@ -17,7 +17,6 @@ var hp = 20
 
 var difficulty = 1.0
 
-var ponder_delay = 2
 var ponder_bonus = 20
 var ponder_income = 1
 var ponder_vol_mod = 0.3
@@ -93,9 +92,9 @@ func _process(delta: float) -> void:
 
 # if the outer ring is at the outer radius of the planet, you get a bonus! otherwise kicked out
 func ponder():
+	print(get_radius() - $PonderRings.get_child(0).get_radius())
 	for idx in range(ring_count):
-		print(scale.x - $PonderRings.get_child(idx).scale.x)
-		if (scale.x - $PonderRings.get_child(idx).scale.x < 0.2):
+		if (get_radius() - $PonderRings.get_child(idx).get_radius() < 50):
 			main_manager.inc_ponderings(ponder_bonus * ponder_income)
 			$PonderRings.get_child(idx).cull()
 			return true
@@ -103,16 +102,20 @@ func ponder():
 	$FailState.play("fail_ponder_animation")
 	return false
 
+func get_radius():
+	return ($PlanetSprite.get_rect().size.x / 2) * scale.x
+
 func start_pondering():
 	var next_delay = 0
 	for idx in range(ring_count):
 		var ring = $PonderRings.get_child(idx)
-		ring.begin_grow(ponder_delay + next_delay)
+		ring.begin_grow(next_delay)
 		next_delay = ring.get_next_ring_step()
 		
 	# add some 'focusing' effects to the camera and audio
 	var vol = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Master"))
 	AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("Master"), vol * ponder_vol_mod)
+	$"../PonderUi".show()
 
 # the passive ponderings you can get just from being active
 func continue_ponder(delta : float):
@@ -125,6 +128,7 @@ func stop_pondering():
 	# return our focused effects to normal
 	var vol = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Master"))
 	AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("Master"), vol / ponder_vol_mod)
+	$"../PonderUi".hide()
 
 func hit():
 	hp -= 1

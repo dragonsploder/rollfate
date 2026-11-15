@@ -93,17 +93,7 @@ script = ExtResource("1_h8ms6")
 [node name="PonderRing" parent="PonderRings" unique_id=666884959 instance=ExtResource("3_0k1rn")]
 visible = false
 scale = Vector2(1e-05, 1e-05)
-next_ring_step = 0.5
-
-[node name="PonderRing2" parent="PonderRings" unique_id=1605096695 instance=ExtResource("3_0k1rn")]
-visible = false
-scale = Vector2(1e-05, 1e-05)
 next_ring_step = 0.7
-
-[node name="PonderRing3" parent="PonderRings" unique_id=1700321008 instance=ExtResource("3_0k1rn")]
-visible = false
-scale = Vector2(1e-05, 1e-05)
-next_ring_step = 0.1
 
 [node name="PlanetSprite" type="Sprite2D" parent="." unique_id=634747872]
 texture = ExtResource("2_ggt7d")

@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://bmme2htuj4ekr"]
+
+[ext_resource type="Shader" uid="uid://cccajkfklrqnu" path="res://scenes/vignette.gdshader" id="1_g1ht0"]
+
+[sub_resource type="GDScript" id="GDScript_g1ht0"]
+script/source = "extends CanvasLayer
+
+var dt : float = 0
+var moving : bool = false
+
+@export var lerp_time : float = 0.5
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	if (moving):
+		var vol = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index(\"Master\"))
+		
+
+func reveal():
+	pass
+	
+func remove():
+	pass
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_02uxp"]
+shader = ExtResource("1_g1ht0")
+shader_parameter/alpha = 1.0
+shader_parameter/inner_radius = 0.0
+shader_parameter/outer_radius = 1.0
+
+[node name="PonderUi" type="CanvasLayer" unique_id=2047356891]
+script = SubResource("GDScript_g1ht0")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1721057344]
+material = SubResource("ShaderMaterial_02uxp")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
