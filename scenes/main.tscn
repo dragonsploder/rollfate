@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://djwf4ifuh6r4m" path="res://scenes/sky_small.tscn" id="4_tefeu"]
 [ext_resource type="PackedScene" uid="uid://d2ww3ggvauiy8" path="res://scenes/sky_medium.tscn" id="5_tipki"]
 [ext_resource type="PackedScene" uid="uid://domu45u2qim14" path="res://scenes/sky_large.tscn" id="6_85g3d"]
+[ext_resource type="PackedScene" uid="uid://dgx0qyswusuuc" path="res://scenes/pause_menu.tscn" id="9_85g3d"]
 
 [sub_resource type="GDScript" id="GDScript_tipki"]
 script/source = "extends ColorRect
@@ -138,6 +139,11 @@ offset_bottom = 1497.1428
 pivot_offset_ratio = Vector2(0.5, 0.5)
 color = Color(0, 0, 0, 1)
 script = SubResource("GDScript_tipki")
+
+[node name="PauseMenu" type="CanvasLayer" parent="." unique_id=1365303724]
+visible = false
+
+[node name="Control" parent="PauseMenu" unique_id=262659646 instance=ExtResource("9_85g3d")]
 
 [connection signal="timeout" from="addponders" to="." method="_on_addponders_timeout"]
 [connection signal="timeout" from="spawnarch" to="." method="_on_spawnarch_timeout"]

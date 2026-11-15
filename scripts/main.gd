@@ -136,9 +136,13 @@ func _process(delta: float) -> void:
 			player.walk(-delta * rad_dist)
 		elif Input.is_action_pressed("r") and not is_pondering:
 			player.walk(delta * rad_dist)
-		elif Input.is_action_pressed("b") and is_pondering:
-			is_pondering = false
-			planet.stop_pondering()
+		elif Input.is_action_just_pressed("b"):
+			if (is_pondering):
+				is_pondering = false
+				planet.stop_pondering()
+			else:
+				get_tree().paused = true
+				$PauseMenu.show()
 			
 		camera.position = player.position
 		camera.rotation = player.rotation
