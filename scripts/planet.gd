@@ -17,6 +17,11 @@ var hp = 20
 
 var difficulty = 1.0
 
+var ponder_delay = 2
+var ponder_bonus = 20
+var ponder_income = 1
+var ponder_vol_mod = 0.3
+
 const BOLT = preload("uid://c2me2k2weof5b")
 const ARCH_ORB = preload("uid://bnomjs570alyk")
 
@@ -86,35 +91,40 @@ func _process(delta: float) -> void:
 	
 	self.scale = Vector2(true_scale, true_scale)
 
-# if the outer ring is at the outer radius of the planet, you get a bonus! else, 
-func ponder(ponder_bonus : float):
+# if the outer ring is at the outer radius of the planet, you get a bonus! otherwise kicked out
+func ponder():
 	for idx in range(ring_count):
-		if (abs(scale.x - $PonderRings.get_child(idx).scale.x) < 1):
-			main_manager.inc_ponderings(ponder_bonus)
-			$PonderRings.get_child(idx).scale = Vector2(0.5, 0.5)
+		print(scale.x - $PonderRings.get_child(idx).scale.x)
+		if (scale.x - $PonderRings.get_child(idx).scale.x < 0.2):
+			main_manager.inc_ponderings(ponder_bonus * ponder_income)
+			$PonderRings.get_child(idx).cull()
 			print("good ponder!")
 			return true
 	stop_pondering()
 	return false
 
 func start_pondering():
+	var next_delay = 0
 	for idx in range(ring_count):
-		$PonderRings.get_child(idx).visible = true
-
-# we just want to update the rings of the 
-func continue_ponder(speed : float, ponder_income : float):
-	main_manager.inc_ponderings(ponder_income)
+		var ring = $PonderRings.get_child(idx)
+		ring.begin_grow(ponder_delay + next_delay)
+		next_delay = ring.get_next_ring_step()
 		
-	for idx in range(ring_count):
-		if (scale.x < $PonderRings.get_child(idx).scale.x):
-			$PonderRings.get_child(idx).scale = Vector2(0.5, 0.5)
-		else:
-			$PonderRings.get_child(idx).scale += Vector2(speed, speed)
+	# add some 'focusing' effects to the camera and audio
+	var vol = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Master"))
+	AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("Master"), vol * ponder_vol_mod)
+
+# the passive ponderings you can get just from being active
+func continue_ponder(delta : float):
+	main_manager.inc_ponderings(ponder_income * delta)
 
 func stop_pondering():
 	for idx in range(ring_count):
-		$PonderRings.get_child(idx).scale = Vector2(0.5, 0.5)
-		$PonderRings.get_child(idx).visible = false
+		$PonderRings.get_child(idx).reset()
+		
+	# return our focused effects to normal
+	var vol = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Master"))
+	AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("Master"), vol / ponder_vol_mod)
 
 func hit():
 	hp -= 1
