@@ -13,9 +13,7 @@ var moving : bool = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if (moving):
-		var vol = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index(\"Master\"))
-		
+	pass
 
 func reveal():
 	pass
@@ -27,8 +25,8 @@ func remove():
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_02uxp"]
 shader = ExtResource("1_g1ht0")
 shader_parameter/alpha = 1.0
-shader_parameter/inner_radius = 0.0
-shader_parameter/outer_radius = 1.0
+shader_parameter/inner_radius = 0.3
+shader_parameter/outer_radius = 1.7
 
 [node name="PonderUi" type="CanvasLayer" unique_id=2047356891]
 script = SubResource("GDScript_g1ht0")

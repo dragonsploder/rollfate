@@ -17,6 +17,7 @@ var hp = 20
 
 var difficulty = 1.0
 
+var ponder_success_radius = 75
 var ponder_bonus = 8
 var ponder_income = 1
 var ponder_vol_mod = 0.3
@@ -89,12 +90,14 @@ func _process(delta: float) -> void:
 	var true_scale = target_scale / x_len
 	
 	self.scale = Vector2(true_scale, true_scale)
+	
+	var ponder_scale = ($PlanetSprite.get_rect().size.x * scale.x - ponder_success_radius) / $PlanetSprite.get_rect().size.x 
+	$"../PonderBarrier".scale = Vector2(ponder_scale, ponder_scale)
 
 # if the outer ring is at the outer radius of the planet, you get a bonus! otherwise kicked out
 func ponder():
-	print(get_radius() - $PonderRings.get_child(0).get_radius())
 	for idx in range(ring_count):
-		if (get_radius() - $PonderRings.get_child(idx).get_radius() < 50):
+		if (get_radius() - $PonderRings.get_child(idx).get_radius() < ponder_success_radius):
 			main_manager.inc_ponderings(ponder_bonus * ponder_income)
 			$PonderRings.get_child(idx).cull()
 			return true
@@ -116,6 +119,7 @@ func start_pondering():
 	var vol = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Master"))
 	AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("Master"), vol * ponder_vol_mod)
 	$"../PonderUi".show()
+	$"../PonderBarrier".visible = true
 
 # the passive ponderings you can get just from being active
 func continue_ponder(delta : float):
@@ -129,6 +133,7 @@ func stop_pondering():
 	var vol = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Master"))
 	AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("Master"), vol / ponder_vol_mod)
 	$"../PonderUi".hide()
+	$"../PonderBarrier".visible = false
 
 func hit():
 	hp -= 1
