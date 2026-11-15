@@ -1,19 +1,50 @@
 [gd_scene format=3 uid="uid://c3qkthp32s0hw"]
 
-[ext_resource type="Texture2D" uid="uid://dn3wiyod83amu" path="res://assets/textures/PonderRing.svg" id="1_mqdd7"]
+[ext_resource type="Texture2D" uid="uid://duscwih60306i" path="res://assets/textures/PonderRing2.svg" id="1_mqdd7"]
 
 [sub_resource type="GDScript" id="GDScript_uahpa"]
 script/source = "extends Node2D
 
+# The total amount of time it takes for the rhythm to loop
+const RHYTHM_TIME = 3
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+# The delay before the next ring in tandem should start
+@export var next_ring_step : float
 
+@onready var planet = get_parent().get_parent()
 
-#TODO as long as 
+# the stage of the rythm we are currently in
+var dt : float = 0
+
+var can_grow : bool = false
+	
+func get_next_ring_step():
+	return next_ring_step
+
+# no matter what, the rings will keep updating to the current size of the planet
+func begin_grow(delay : float):
+	$DelayTimer.start(delay)
+	await $DelayTimer.timeout
+	can_grow = true
+	visible = true
+
+func reset():
+	$DelayTimer.stop()
+	cull()
+	can_grow = false
+	visible = false
+
+# we need a way reset the size of the ring without stopping it from growing
+func cull():
+	dt = 0
+	scale = Vector2.ZERO
+
+# As long as we are able to grow, the rings should expand outward
 func _process(delta: float) -> void:
-	pass
+	if (can_grow):
+		dt += delta
+		dt = fmod(dt, RHYTHM_TIME)
+		scale = dt * planet.scale / RHYTHM_TIME
 "
 
 [node name="PonderRing" type="Node2D" unique_id=666884959]
@@ -21,3 +52,6 @@ script = SubResource("GDScript_uahpa")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=740081740]
 texture = ExtResource("1_mqdd7")
+
+[node name="DelayTimer" type="Timer" parent="." unique_id=376842601]
+one_shot = true

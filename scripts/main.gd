@@ -5,7 +5,7 @@ extends Node
 @export var camera : Camera2D
 @export var ui: Node
 
-var ponderings = 10000.0
+var ponderings = 10.0
 var planet_scale = 1
 const PLAYER_SPEED = 5000
 const ROT_SPEED = 0.75
@@ -118,7 +118,7 @@ func _process(delta: float) -> void:
 	if ponderings > 100000 and planet_difficulty == 2:
 		planet_difficulty = 3
 	
-	# handel monoliths
+	# handle monoliths
 	for mono in $Planet/Monoliths.get_children():
 		if ponderings >= mono.min_ponderings:
 			mono.active = true
@@ -137,7 +137,7 @@ func _process(delta: float) -> void:
 	if block:
 		return 
 	if is_pondering:
-		planet.continue_ponder(ponder_speed_rhythm * delta, player_pondering_scale * delta)
+		planet.continue_ponder(delta)
 	if in_towerpit:
 		camera.zoom = get_towerpit_zoom()
 		if Input.is_action_just_pressed("b"):
@@ -179,12 +179,15 @@ func _process(delta: float) -> void:
 		if Input.is_action_just_pressed("a"):
 			if is_instance_valid(player.active_monolith):
 				player.active_monolith.attempt_active_monolith()
-			elif (is_pondering):
-				if (not planet.ponder(100)):
-					is_pondering = false
-			else:
-				planet.start_pondering()
-				is_pondering = true
+		
+		# Start pondering on 'a', and continue to ponder under released
+		if (Input.is_action_pressed("a") and not is_pondering):
+			planet.start_pondering()
+			is_pondering = true
+			
+		elif (Input.is_action_just_released("a") and is_pondering):
+			is_pondering = false
+			planet.stop_pondering()
 	
 		var rad_dist = PLAYER_SPEED / (2 * PI * get_planet_scale())
 		if Input.is_action_pressed("l") and not is_pondering:
@@ -194,9 +197,10 @@ func _process(delta: float) -> void:
 			player.walk(delta * rad_dist)
 			player.right()
 		elif Input.is_action_just_pressed("b"):
+			# We use the b button to try and actively sync the ponder to the ryhthm of the rings
 			if (is_pondering):
-				is_pondering = false
-				planet.stop_pondering()
+				if (not planet.ponder()):
+					is_pondering = false
 			else:
 				$PauseMenu.show()
 				get_tree().paused = true
