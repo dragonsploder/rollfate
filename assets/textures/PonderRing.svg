@@ -11,9 +11,11 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg"><defs
      id="defs1" /><g
-     id="layer6"><circle
-       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:4.99999;stroke-dasharray:none;stroke-opacity:1"
+     id="layer6"
+     style="display:inline"
+     transform="translate(1.6689301e-6,-135.46666)"><circle
+       style="display:inline;fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:5.29166;stroke-dasharray:none;stroke-opacity:1"
        id="path3"
-       cx="67.733337"
-       cy="67.733337"
-       r="65.233337" /></g></svg>
+       cx="67.73333"
+       cy="203.2"
+       r="65.087502" /></g></svg>

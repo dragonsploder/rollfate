@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="rollfate"
-run/main_scene="uid://cdxr6xt3qgajk"
+run/main_scene="uid://caxrunfh72466"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
