@@ -5,7 +5,7 @@ extends Node
 @export var camera : Camera2D
 @export var ui: Node
 
-var ponderings = 10000000.0
+var ponderings = 1.0
 var planet_scale = 1
 const PLAYER_SPEED = 5000
 const ROT_SPEED = 0.75
@@ -34,6 +34,8 @@ var in_towerpit = false
 var entering_towerpit = false
 var block = false
 var do_spin = true
+
+var start_scroll = true
 
 const TREE_2 = preload("uid://dp5oeo8a81vj0")
 
@@ -137,7 +139,9 @@ func get_current_focus_base_pps():
 		return 0
 
 func _ready() -> void:
+	var text_scroll = "You are a young ponderer. You are determined to grow your orb to mythic proprotions and gain 1,000,000 ponderings.\n\n- Hold Z to ponder, and press X when the white ponder rings grow to the size of the orb for a bonus.\n- Monoliths let you spend ponder to hire pondering wizards.\n\nGood luck!"
 	planet_scale = get_planet_scale_raw()
+	ui.show_text_popup(text_scroll)
 	
 func show_text_popup(text: String):
 	if not in_towerpit and not entering_towerpit:
@@ -161,6 +165,16 @@ func _process(delta: float) -> void:
 	
 	fire_cool_down -= delta
 	planet_scale = lerp(float(planet_scale), get_planet_scale_raw(), 0.99 * delta)
+	
+	if start_scroll:
+		camera.position = player.position
+		camera.rotation = player.rotation
+		if Input.is_action_just_pressed("a"):
+			start_scroll = false
+			hide_text_popup()
+		return
+	
+
 	
 	if ponderings > 10_000 and not do_spawning:
 		do_spawning = true
@@ -389,5 +403,8 @@ func get_buttons_context():
 		
 	if is_instance_valid(player.active_monolith):
 		return "Z : Activate Monolith | X : Pause | Arrow Keys: Walk"
+	
+	if start_scroll:
+		return "Z: Begin game"
 
 	return "Z : Ponder | X : Pause | Arrow Keys: Walk"
