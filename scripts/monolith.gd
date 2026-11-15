@@ -67,6 +67,12 @@ var skull_texts = [
 	"I once had a body you know.",
 	"Tis but a flesh wound.",
 	"I thought I would ponder forever, now I’m naught but a skull - it will happen to you too..!",
+	"Too many enemies eh? Knock the rest back first - then you can focus on just a few at a time.",
+	"Summon your Abjurors on opposite sides of the orb - makes ‘em it quicker to aim at the Archorbs.",
+	"If you loose any of your wizards, the hire price goes back down.",
+	"Light travels faster than sound, that’s why some people appear bright until you hear them speak.",
+	"Change is inevitable, except from a vending machine.",
+	"An onion a day keeps your friends away.",
 ]
 
 var monolith_texts = [

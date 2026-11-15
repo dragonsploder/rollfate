@@ -5,7 +5,7 @@ extends Node
 @export var camera : Camera2D
 @export var ui: Node
 
-var ponderings = 10000.0
+var ponderings = 100000.0
 var planet_scale = 1
 const PLAYER_SPEED = 5000
 const ROT_SPEED = 0.75
@@ -37,7 +37,37 @@ var do_spin = true
 
 const TREE_2 = preload("uid://dp5oeo8a81vj0")
 
+const THINK_1 = preload("uid://csq887qihfyuj")
+const THINK_2 = preload("uid://btspcw41f56u5")
+const THINK_3 = preload("uid://c81crds12fvca")
+const THINK_4 = preload("uid://b03p6xuxekwkg")
+const THINK_5 = preload("uid://ckhh53v57bqvh")
+const THINK_6 = preload("uid://c731sumq8ugj3")
+const THINK_7 = preload("uid://d8j08s7brl7b")
+const THINK_8 = preload("uid://duwbpkfm8tdxr")
+const THINK_9 = preload("uid://c4gn4iyhtb24i")
+
+var think_sounds = [
+	THINK_1,
+	THINK_2,
+	THINK_3,
+	THINK_4,
+	THINK_5,
+	THINK_6,
+	THINK_7,
+	THINK_8,
+	THINK_9,
+]
+
+const NOV_READ = preload("uid://bsqh71tq3hnvt")
+const JOURNY_READ = preload("uid://dy7tuyd8dinee")
+const ELDER_READ = preload("uid://che1qfji7bvod")
+const ZAPER_READ = preload("uid://tyjcidk427qc")
+
+
 var planet_difficulty = 1
+
+var seen_mono = []
 
 func get_planet_rot():
 	return planet.rotation
@@ -48,14 +78,15 @@ func get_towerpit_zoom() -> Vector2:
 	return Vector2(z,z)
 
 func enter_towerpit():
+	$towerpitup.play()
 	hide_text_popup()
 	entering_towerpit = true
 	block = true
 	var tween : Tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
 	if do_spin:
-		tween.tween_property(camera, "position", Vector2(0,0), 2.0)
-		tween.parallel().tween_property(camera, "rotation", 2*PI+ PI/2, 2.0)
-		tween.parallel().tween_property(camera, "zoom", get_towerpit_zoom(), 2.0)
+		tween.tween_property(camera, "position", Vector2(0,0), 0.8)
+		tween.parallel().tween_property(camera, "rotation", 2*PI+ PI/2, 0.8)
+		tween.parallel().tween_property(camera, "zoom", get_towerpit_zoom(), 0.8)
 	else:
 		tween.tween_property(camera, "position", Vector2(0,0), 0.8)
 		tween.parallel().tween_property(camera, "rotation", PI/2, 0.8)
@@ -125,6 +156,11 @@ func _process(delta: float) -> void:
 			mono.show()
 			mono.position = Vector2.from_angle(mono.angle_loc) * planet_scale
 			mono.rotation = mono.angle_loc + PI / 2
+			
+			if not mono.type in seen_mono:
+				seen_mono.append(mono.type)
+				$newmono.play()
+			
 			for a in mono.get_overlapping_areas():
 				if "is_player_area" in a:
 					player._on_player_entered(mono)
@@ -141,13 +177,14 @@ func _process(delta: float) -> void:
 	if in_towerpit:
 		camera.zoom = get_towerpit_zoom()
 		if Input.is_action_just_pressed("b"):
+			$towerpitdown.play()
 			block = true
 			var tween : Tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
 
 			if do_spin:
-				tween.tween_property(camera, "position", player.position, 2.0)
-				tween.parallel().tween_property(camera, "rotation", player.rotation, 2.0)
-				tween.parallel().tween_property(camera, "zoom", Vector2(1.0,1.0), 2.0)
+				tween.tween_property(camera, "position", player.position, 0.8)
+				tween.parallel().tween_property(camera, "rotation", player.rotation, 0.8)
+				tween.parallel().tween_property(camera, "zoom", Vector2(1.0,1.0), 0.8)
 				do_spin = false
 			else:
 				camera.rotation = fmod(camera.rotation, 2 *PI)
@@ -160,6 +197,7 @@ func _process(delta: float) -> void:
 			block = false
 		if Input.is_action_pressed("a"):
 			if fire_cool_down < 0.0:
+				$shoot.play()
 				for w in $Planet/NavyWizzers.get_children():
 					if dec_ponderings(0.01 * ponderings):
 						var b = BOLT.instantiate()
@@ -213,13 +251,28 @@ func dec_ponderings(amt: float) -> bool:
 func spawn_mage(type):
 	var wiz = WIZARD.instantiate()
 	match type:
-		0: $Planet/NoviceMages.add_child(wiz)
-		1: $Planet/JournymanMages.add_child(wiz)
-		2: $Planet/ElderMages.add_child(wiz)
-		3: $Planet/NavyWizzers.add_child(wiz)
-		4: $Planet/NavyWizzers.add_child(wiz)
-		9: $Planet/trees.add_child(wiz)
+		0: 
+			$Planet/NoviceMages.add_child(wiz) 
+			$spawn.stream = NOV_READ
+		1: 
+			$Planet/JournymanMages.add_child(wiz)
+			$spawn.stream = JOURNY_READ
+		2: 
+			$Planet/ElderMages.add_child(wiz)
+			$spawn.stream = ELDER_READ
+		3: 
+			$Planet/NavyWizzers.add_child(wiz)
+			$spawn.stream = ZAPER_READ
+		4: 
+			$Planet/NavyWizzers.add_child(wiz)
+			$spawn.stream =ZAPER_READ
+		9:
+			$Planet/trees.add_child(wiz)
+			$spawn.stream =null
+			
 	wiz.set_type(type)
+	$wizspawn.play()
+	$spawn.play()
 
 func inc_ponderings(amt: float):
 	ponderings += amt
@@ -271,7 +324,13 @@ func give_upgrade_1(idx):
 		1: journyman_wizard_mult *= 2.0
 		2: novice_wizard_mult *= 10
 
+func on_planet_death():
+	$planetDeath.play()
+
 func give_upgrade_2(idx):
 	match idx:
 		0: fire_cool_down_time /= 2.0
 		1: pass #TODO 
+
+func play_wiz_death():
+	$death.play()

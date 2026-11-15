@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cf4tf1s62kqfs" path="res://assets/textures/Wiz2_idle_green.png" id="3_5ipgv"]
 [ext_resource type="Texture2D" uid="uid://bqqluwg333c0o" path="res://assets/textures/Wiz2_idle_yellow.png" id="5_5ipgv"]
 [ext_resource type="Texture2D" uid="uid://dp5oeo8a81vj0" path="res://assets/textures/Tree2.png" id="5_8qlyk"]
+[ext_resource type="AudioStream" uid="uid://csq887qihfyuj" path="res://assets/sound/think1.wav" id="7_4jkov"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8qlyk"]
 atlas = ExtResource("2_nmnu7")
@@ -158,13 +159,13 @@ animations = [{
 radius = 51.00913
 
 [node name="Node2D" type="Node2D" unique_id=487264671]
-z_index = 5
+z_index = 11
 script = ExtResource("1_leome")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=868935755]
-position = Vector2(0, -80)
+position = Vector2(0, -55)
 sprite_frames = SubResource("SpriteFrames_dr7v0")
-animation = &"tree"
+animation = &"elder_idle"
 
 [node name="Timer" type="Timer" parent="." unique_id=573955575]
 wait_time = 0.3
@@ -177,5 +178,21 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1035414252]
 position = Vector2(0, -57.965)
 shape = SubResource("CircleShape2D_dr7v0")
+
+[node name="thinker" type="AudioStreamPlayer2D" parent="." unique_id=959344375]
+stream = ExtResource("7_4jkov")
+bus = &"SFX"
+
+[node name="thinkings" type="RichTextLabel" parent="." unique_id=1985896967]
+visible = false
+offset_left = -125.0
+offset_top = -247.0
+offset_right = 145.0
+offset_bottom = -181.0
+theme_override_constants/outline_size = 6
+text = "Why do they call them 'apartments' if they’re all stuck together?"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

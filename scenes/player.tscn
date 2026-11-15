@@ -53,7 +53,7 @@ height = 216.0
 script = ExtResource("1_g2els")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1598763977]
-position = Vector2(0, -50)
+position = Vector2(0, -40)
 sprite_frames = SubResource("SpriteFrames_dr7v0")
 autoplay = "default"
 frame_progress = 0.72647595

@@ -54,6 +54,8 @@ func set_type(t: int):
 			z_index -= 5
 			return
 	
+	z_index += randi_range(0,3)
+	
 	angle = spawn_locs[type] + randf_range(-rad_dist, rad_dist)
 	
 
@@ -72,11 +74,49 @@ func _process(delta: float) -> void:
 	self.position = Vector2.from_angle(angle) * planet_scale
 	self.rotation = angle + PI / 2
 
+var thinkings = [
+	"What is 2+2?",
+	"Why 42?",
+	"Where are my feet?",
+	"How old am I?",
+	"Why is it blue?",
+	"Am I doing it right?",
+	"I can feel my brain growing?",
+	"If money doesn't grow on trees, why do banks have branches?",
+	"Shouldn't the Air and Space museum be empty?",
+	"What they doing over there?",
+	"I wonder if those wizards get dental?",
+	"Why do you bake cookies but cook bacon?",
+	"I like pie.",
+	"Is there another word for synonym?",
+	"Why do they call them 'apartments' if they’re all stuck together?",
+	"Why is there an expiration date on sour cream?",
+	"If Apple made a car would it have Windows?",
+	"Where are my camouflage pants?",
+	"Does soap ever get dirty?",
+	"I wish I was making a game for the 2026 Roll Your Fate Jam.",
+	"Why do noses run and feet smell?",
+	"If two apples are a pair, are two pears an apple?",
+	"Can something be both new and improved?",
+	"What happens if you’re scared half to death twice?",
+	"Why doesn’t glue get stuck in the bottle?",
+]
 
 func _on_timer_timeout() -> void:
+	if randi_range(0, 400) == 0:
+		$thinkings.text = thinkings.pick_random()
+		$thinkings.show()
+	if randi_range(0, 20) == 0:
+		$thinkings.hide()
+	if randi_range(0, 1000) == 0:
+		$thinker.stream = main_manager.think_sounds.pick_random()
+		$thinker.play()
 	if tree:
 		return
 	if walking == 0 and randi_range(0, 100) == 0:
+		if z_index >10:
+			z_index -= 6
+			$AnimatedSprite2D.position.y -= 10
 		#var norm_angle = angle % (2*PI)
 		if randi_range(0,1) == 0:
 			walking = -1.0

@@ -76,6 +76,7 @@ func _process(delta: float) -> void:
 			
 		if hp <= 0:
 			main_manager.give_back_angle(income_angle)
+			main_manager.on_planet_death()
 			queue_free()
 		return
 		
@@ -117,6 +118,7 @@ func stop_pondering():
 
 func hit():
 	hp -= 1
+	$hit.play()
 	if bounce < (2.5 / difficulty):
 		bounce += 0.5 / difficulty
 
@@ -126,4 +128,5 @@ func _on_zap_timeout() -> void:
 	self.add_child(b)
 	b.position = $Wiz.position
 	b.rotation = $Wiz.rotation + randf_range(-0.15, 0.15)
+	$Zapsound.play()
 	$Zap.stop()

@@ -10,6 +10,13 @@
 [ext_resource type="PackedScene" uid="uid://domu45u2qim14" path="res://scenes/sky_large.tscn" id="6_85g3d"]
 [ext_resource type="PackedScene" uid="uid://dgx0qyswusuuc" path="res://scenes/pause_menu.tscn" id="9_choun"]
 [ext_resource type="AudioStream" uid="uid://cywean18hsmf8" path="res://assets/sound/Deep Think.ogg" id="10_choun"]
+[ext_resource type="AudioStream" uid="uid://c6rabnqecav8o" path="res://assets/sound/new_monolith.wav" id="11_ya4ey"]
+[ext_resource type="AudioStream" uid="uid://dhwnqx2sliet1" path="res://assets/sound/hitHurt.wav" id="12_eb6dy"]
+[ext_resource type="AudioStream" uid="uid://fg4grycd6dh" path="res://assets/sound/laserShoot_yellow.wav" id="13_trceg"]
+[ext_resource type="AudioStream" uid="uid://doqmp6j0enw6n" path="res://assets/sound/wizspawn.wav" id="14_a8y0u"]
+[ext_resource type="AudioStream" uid="uid://hj711fxov0sg" path="res://assets/sound/towerpitup.wav" id="15_jbj1t"]
+[ext_resource type="AudioStream" uid="uid://b0jeg66gn8vgf" path="res://assets/sound/towerpitdown.wav" id="16_muem4"]
+[ext_resource type="AudioStream" uid="uid://v2d5el4n1a7e" path="res://assets/sound/explosion.wav" id="17_muem4"]
 
 [sub_resource type="GDScript" id="GDScript_tipki"]
 script/source = "extends ColorRect
@@ -198,8 +205,47 @@ visible = false
 
 [node name="Music" type="AudioStreamPlayer" parent="." unique_id=1619114680]
 stream = ExtResource("10_choun")
-volume_db = -3.0
+volume_db = -5.0
 autoplay = true
+bus = &"MUSIC"
+
+[node name="newmono" type="AudioStreamPlayer" parent="." unique_id=208403575]
+stream = ExtResource("11_ya4ey")
+volume_db = -3.0
+bus = &"SFX"
+
+[node name="death" type="AudioStreamPlayer" parent="." unique_id=1706714]
+stream = ExtResource("12_eb6dy")
+volume_db = -6.0
+bus = &"SFX"
+
+[node name="shoot" type="AudioStreamPlayer" parent="." unique_id=1991900692]
+stream = ExtResource("13_trceg")
+volume_db = -5.0
+bus = &"SFX"
+
+[node name="wizspawn" type="AudioStreamPlayer" parent="." unique_id=886083239]
+stream = ExtResource("14_a8y0u")
+volume_db = -3.0
+bus = &"SFX"
+
+[node name="towerpitdown" type="AudioStreamPlayer" parent="." unique_id=1256579788]
+stream = ExtResource("15_jbj1t")
+volume_db = -3.0
+bus = &"SFX"
+
+[node name="towerpitup" type="AudioStreamPlayer" parent="." unique_id=942992128]
+stream = ExtResource("16_muem4")
+volume_db = -3.0
+bus = &"SFX"
+
+[node name="spawn" type="AudioStreamPlayer" parent="." unique_id=702097540]
+bus = &"SFX"
+
+[node name="planetDeath" type="AudioStreamPlayer" parent="." unique_id=1073750057]
+stream = ExtResource("17_muem4")
+volume_db = -6.0
+bus = &"SFX"
 
 [connection signal="timeout" from="addponders" to="." method="_on_addponders_timeout"]
 [connection signal="timeout" from="spawnarch" to="." method="_on_spawnarch_timeout"]

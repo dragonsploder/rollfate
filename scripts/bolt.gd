@@ -23,10 +23,16 @@ func _process(delta: float) -> void:
 func _on_timer_timeout() -> void:
 	queue_free()
 
+func play_wiz_death():
+	$death.play()
 
+var can_kill = true
 func _on_area_entered(area: Area2D) -> void:
 	if not yellow:
-		area.get_parent().queue_free()
+		if can_kill:
+			can_kill = false
+			area.get_parent().queue_free()
+			main_manager.play_wiz_death()
 		queue_free()
 	else:
 		area.hit()

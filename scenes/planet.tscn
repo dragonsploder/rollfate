@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://38tnvofot3fn" path="res://assets/textures/Orb.svg" id="2_ggt7d"]
 [ext_resource type="PackedScene" uid="uid://c3qkthp32s0hw" path="res://scenes/ponder_ring.tscn" id="3_0k1rn"]
 [ext_resource type="Texture2D" uid="uid://celoiselrb7s0" path="res://assets/textures/Wiz2_idle_red.png" id="3_ggt7d"]
+[ext_resource type="AudioStream" uid="uid://beajl0s4cp5n3" path="res://assets/sound/laserShoot.wav" id="5_48b8c"]
+[ext_resource type="AudioStream" uid="uid://bpq64amv2hvc1" path="res://assets/sound/hitHurt_planet.wav" id="6_3s4jt"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0k1rn"]
 atlas = ExtResource("3_ggt7d")
@@ -74,5 +76,14 @@ one_shot = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1325465951]
 shape = SubResource("CircleShape2D_dr7v0")
+
+[node name="Zapsound" type="AudioStreamPlayer" parent="." unique_id=301955302]
+stream = ExtResource("5_48b8c")
+volume_db = -6.0
+bus = &"SFX"
+
+[node name="hit" type="AudioStreamPlayer" parent="." unique_id=1246293116]
+stream = ExtResource("6_3s4jt")
+bus = &"SFX"
 
 [connection signal="timeout" from="Zap" to="." method="_on_zap_timeout"]
