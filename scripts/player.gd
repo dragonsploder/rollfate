@@ -8,6 +8,12 @@ var angle = 0
 
 var active_monolith = null
 
+func left():
+	$AnimatedSprite2D.flip_h = true
+	
+func right():
+	$AnimatedSprite2D.flip_h = false
+
 func _process(delta: float) -> void:
 	place_player()
 	

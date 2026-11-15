@@ -17,6 +17,8 @@ const spawn_locs = [
 	2.5
 ]
 
+var tree = false
+
 func _ready() -> void:
 	#speed = randi_range(5000, 15000)
 	pass
@@ -41,6 +43,16 @@ func set_type(t: int):
 		4:
 			speed = 500
 			$AnimatedSprite2D.play("wizzer_idle")
+		9:
+			tree = true
+			angle = randf_range(0, 2*PI)
+			
+			$AnimatedSprite2D.play("tree")
+			self.scale = Vector2(1.5, 1.5)
+			$AnimatedSprite2D.position.y -= 30 + randf_range(0, 10)
+			$Area2D.position.y -= 30
+			z_index -= 5
+			return
 	
 	angle = spawn_locs[type] + randf_range(-rad_dist, rad_dist)
 	
@@ -62,6 +74,8 @@ func _process(delta: float) -> void:
 
 
 func _on_timer_timeout() -> void:
+	if tree:
+		return
 	if walking == 0 and randi_range(0, 100) == 0:
 		#var norm_angle = angle % (2*PI)
 		if randi_range(0,1) == 0:

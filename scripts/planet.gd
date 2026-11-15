@@ -15,11 +15,18 @@ var bounce = 0.0
 
 var hp = 20
 
+var difficulty = 1.0
+
 const BOLT = preload("uid://c2me2k2weof5b")
 const ARCH_ORB = preload("uid://bnomjs570alyk")
 
 func set_start() -> void:
 	self.position =  Vector2.from_angle(income_angle) * main_manager.get_planet_scale() * 8
+
+func set_difficulty(d):
+	difficulty = d
+	hp *= d
+	$Zap.wait_time /= d
 
 func _ready() -> void:
 	x_len = $Marker2D.position.x
@@ -110,8 +117,8 @@ func stop_pondering():
 
 func hit():
 	hp -= 1
-	if bounce < 2.5:
-		bounce += 0.5
+	if bounce < (2.5 / difficulty):
+		bounce += 0.5 / difficulty
 
 
 func _on_zap_timeout() -> void:

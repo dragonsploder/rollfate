@@ -17,6 +17,7 @@ const MONOLITH_4 = preload("uid://cboywsbdamwyt")
 const MONOLITH_5 = preload("uid://1fe5bk2y20rg")
 const MONOLITH_6 = preload("uid://dnx71sf010e81")
 const SKULL = preload("uid://bi8xyb4f30t6s")
+const TREE_1 = preload("uid://smympd4r2qo4")
 
 
 var monolith_sprites = [
@@ -28,7 +29,8 @@ var monolith_sprites = [
 	MONOLITH_6,
 	MONOLITH_5,
 	MONOLITH_5,
-	SKULL
+	SKULL,
+	TREE_1
 ]
 var current_upgrade = 0
 
@@ -78,6 +80,9 @@ var monolith_texts = [
 
 func _ready() -> void:
 	$Sprite2D.texture = monolith_sprites[type]
+	if type == 9:
+		$Sprite2D.scale = Vector2(1.5, 1.5)
+		$Sprite2D.position += Vector2(0, -75) 
 
 func get_monolith_text():
 	if type == 6:
@@ -86,6 +91,8 @@ func get_monolith_text():
 		return upgrades2[current_upgrade].replace("COST", str(upgrades2_costs[current_upgrade]))
 	elif type == 8:
 		return current_skull_text
+	elif type == 9:
+		return "Plant Tree\n5000 pondering\nOffers vibes and some protection"
 		
 	return monolith_texts[type].replace("COST", str(main_manager.get_active_cost(type))).replace("PPS", str(main_manager.get_pps(type)))
 
@@ -98,9 +105,13 @@ func attempt_active_monolith():
 	elif type == 7 and len(upgrades2) != current_upgrade + 1 and main_manager.dec_ponderings(upgrades2_costs[current_upgrade]):
 		main_manager.give_upgrade_2(current_upgrade)
 		current_upgrade += 1
-		
-	if main_manager.dec_ponderings(main_manager.get_active_cost(type)):
-		main_manager.spawn_mage(type)
+	elif type == 8:
+		return
+	elif type == 9 and main_manager.dec_ponderings(5000):
+		main_manager.spawn_mage(9)
+	else:
+		if main_manager.dec_ponderings(main_manager.get_active_cost(type)):
+			main_manager.spawn_mage(type)
 
 
 func _on_skull_timer_timeout() -> void:

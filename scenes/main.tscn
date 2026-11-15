@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://d2ww3ggvauiy8" path="res://scenes/sky_medium.tscn" id="5_tipki"]
 [ext_resource type="PackedScene" uid="uid://domu45u2qim14" path="res://scenes/sky_large.tscn" id="6_85g3d"]
 [ext_resource type="PackedScene" uid="uid://dgx0qyswusuuc" path="res://scenes/pause_menu.tscn" id="9_85g3d"]
+[ext_resource type="AudioStream" uid="uid://cywean18hsmf8" path="res://assets/sound/Deep Think.ogg" id="10_choun"]
 
 [sub_resource type="GDScript" id="GDScript_tipki"]
 script/source = "extends ColorRect
@@ -100,6 +101,12 @@ type = 8
 angle_loc = 4.8
 min_ponderings = 1000
 
+[node name="Tree" parent="Planet/Monoliths" unique_id=472959786 instance=ExtResource("4_jyhfs")]
+visible = false
+type = 9
+angle_loc = 4.2
+min_ponderings = 1000
+
 [node name="NoviceMages" type="Node2D" parent="Planet" unique_id=1406211565]
 top_level = true
 
@@ -114,6 +121,9 @@ top_level = true
 z_index = 50
 
 [node name="NavyWizzers" type="Node2D" parent="Planet" unique_id=1751384970]
+top_level = true
+
+[node name="trees" type="Node2D" parent="Planet" unique_id=1486400624]
 top_level = true
 
 [node name="MonoRemote" type="RemoteTransform2D" parent="Planet" unique_id=1923186184]
@@ -138,6 +148,11 @@ update_scale = false
 
 [node name="NavyWizzerRemote" type="RemoteTransform2D" parent="Planet" unique_id=862899401]
 remote_path = NodePath("../NavyWizzers")
+update_position = false
+update_scale = false
+
+[node name="TreeRemote" type="RemoteTransform2D" parent="Planet" unique_id=1384965541]
+remote_path = NodePath("../trees")
 update_position = false
 update_scale = false
 
@@ -182,6 +197,11 @@ script = SubResource("GDScript_tipki")
 visible = false
 
 [node name="Control" parent="PauseMenu" unique_id=262659646 instance=ExtResource("9_85g3d")]
+
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=1619114680]
+stream = ExtResource("10_choun")
+volume_db = -3.0
+autoplay = true
 
 [connection signal="timeout" from="addponders" to="." method="_on_addponders_timeout"]
 [connection signal="timeout" from="spawnarch" to="." method="_on_spawnarch_timeout"]

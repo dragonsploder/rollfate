@@ -5,9 +5,9 @@ extends Node
 @export var camera : Camera2D
 @export var ui: Node
 
-var ponderings = 2000000.0
+var ponderings = 10000.0
 var planet_scale = 1
-const PLAYER_SPEED = 10000
+const PLAYER_SPEED = 5000
 const ROT_SPEED = 0.75
 var is_pondering : bool = false
 
@@ -35,11 +35,16 @@ var entering_towerpit = false
 var block = false
 var do_spin = true
 
+const TREE_2 = preload("uid://dp5oeo8a81vj0")
+
+var planet_difficulty = 1
+
 func get_planet_rot():
 	return planet.rotation
 
 func get_towerpit_zoom() -> Vector2:
 	var z = 1/get_planet_scale() * 100
+	#var z = 1/get_planet_scale() * 150
 	return Vector2(z,z)
 
 func enter_towerpit():
@@ -107,6 +112,11 @@ func _process(delta: float) -> void:
 	
 	if ponderings > 1200:
 		do_spawning = true
+		
+	if ponderings > 20000 and planet_difficulty == 1:
+		planet_difficulty = 2
+	if ponderings > 100000 and planet_difficulty == 2:
+		planet_difficulty = 3
 	
 	# handel monoliths
 	for mono in $Planet/Monoliths.get_children():
@@ -179,8 +189,10 @@ func _process(delta: float) -> void:
 		var rad_dist = PLAYER_SPEED / (2 * PI * get_planet_scale())
 		if Input.is_action_pressed("l") and not is_pondering:
 			player.walk(-delta * rad_dist)
+			player.left()
 		elif Input.is_action_pressed("r") and not is_pondering:
 			player.walk(delta * rad_dist)
+			player.right()
 		elif Input.is_action_just_pressed("b"):
 			if (is_pondering):
 				is_pondering = false
@@ -206,13 +218,15 @@ func spawn_mage(type):
 		2: $Planet/ElderMages.add_child(wiz)
 		3: $Planet/NavyWizzers.add_child(wiz)
 		4: $Planet/NavyWizzers.add_child(wiz)
+		9: $Planet/trees.add_child(wiz)
 	wiz.set_type(type)
 
 func inc_ponderings(amt: float):
 	ponderings += amt
 
 func get_planet_scale_raw() -> float:
-	return log(ponderings + 1.0) * 100.0
+	#return log(ponderings + 1.0) * 100.0
+	return log(ponderings + 3.0) * 85.0
 	
 func get_planet_scale() -> float:
 	return planet_scale
@@ -245,6 +259,7 @@ func spawn_archplanet():
 	ap.income_angle = income_angles.pick_random()
 	income_angles.erase(ap.income_angle)
 	ap.set_start()
+	ap.set_difficulty(planet_difficulty)
 
 func _on_spawnarch_timeout() -> void:
 	if do_spawning and len($ArchPlanets.get_children()) < 5 and randi_range(0,2 + int(len($ArchPlanets.get_children())/2)) == 0:

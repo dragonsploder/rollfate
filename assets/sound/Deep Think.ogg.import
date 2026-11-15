@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cywean18hsmf8"
+path="res://.godot/imported/Deep Think.ogg-93bc61aec70db332f4d577fb5b2a4259.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/sound/Deep Think.ogg"
+dest_files=["res://.godot/imported/Deep Think.ogg-93bc61aec70db332f4d577fb5b2a4259.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

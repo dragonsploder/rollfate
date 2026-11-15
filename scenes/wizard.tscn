@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://d1tqdpxkqj5g5" path="res://assets/textures/Wiz2_idle_purple.png" id="2_nmnu7"]
 [ext_resource type="Texture2D" uid="uid://cf4tf1s62kqfs" path="res://assets/textures/Wiz2_idle_green.png" id="3_5ipgv"]
 [ext_resource type="Texture2D" uid="uid://bqqluwg333c0o" path="res://assets/textures/Wiz2_idle_yellow.png" id="5_5ipgv"]
+[ext_resource type="Texture2D" uid="uid://dp5oeo8a81vj0" path="res://assets/textures/Tree2.png" id="5_8qlyk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8qlyk"]
 atlas = ExtResource("2_nmnu7")
@@ -53,6 +54,10 @@ region = Rect2(512, 0, 256, 256)
 [sub_resource type="AtlasTexture" id="AtlasTexture_5ipgv"]
 atlas = ExtResource("1_3jsmo")
 region = Rect2(768, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y3hnb"]
+atlas = ExtResource("5_8qlyk")
+region = Rect2(0, 0, 256, 256)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sbuw5"]
 atlas = ExtResource("5_5ipgv")
@@ -125,6 +130,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_y3hnb")
+}],
+"loop": 1,
+"name": &"tree",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_sbuw5")
 }, {
 "duration": 1.0,
@@ -145,12 +158,13 @@ animations = [{
 radius = 51.00913
 
 [node name="Node2D" type="Node2D" unique_id=487264671]
+z_index = 5
 script = ExtResource("1_leome")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=868935755]
 position = Vector2(0, -80)
 sprite_frames = SubResource("SpriteFrames_dr7v0")
-animation = &"wizzer_idle"
+animation = &"tree"
 
 [node name="Timer" type="Timer" parent="." unique_id=573955575]
 wait_time = 0.3
